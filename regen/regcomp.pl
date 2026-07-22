@@ -1107,7 +1107,7 @@ sub print_state_def_line
 
     # The sub-names are like '_tb' or '_tb_p8' = max 6 chars wide
     my $name_col_width = $base_name_width + 6;
-    my $line = sprintf("/* 0x%04x | %5d\n", $id, $id);
+    my $line = sprintf("/* 0x%02x : %3d\n", $id, $id);
     my $columns = 78;
 
     # Keep the expanded value and description on a separate line from the

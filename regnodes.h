@@ -140,7 +140,7 @@ typedef struct regnode                           tregnode_WHILEM;
 
 /* The #defines below give both the basic regnode and the expanded version for
    switching on utf8ness */
-/* 0x0000 |     0
+/* 0x00 :   0
    END - End of program. */
 #define END                         0
 #define END_tb                      ((END) * 2)
@@ -150,7 +150,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define END_t8_pb                   ((END) * 4 + 2)
 #define END_t8_p8                   ((END) * 4 + 3)
 
-/* 0x0001 |     1
+/* 0x01 :   1
    SUCCEED - Return from a subroutine, basically. */
 #define SUCCEED                     (END + 1)
 #define SUCCEED_tb                  ((SUCCEED) * 2)
@@ -160,7 +160,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SUCCEED_t8_pb               ((SUCCEED) * 4 + 2)
 #define SUCCEED_t8_p8               ((SUCCEED) * 4 + 3)
 
-/* 0x0002 |     2
+/* 0x02 :   2
    LOOKBEHIND_END - Return from lookbehind (IFMATCH/UNLESSM) and validate
    position when they do */
 #define LOOKBEHIND_END              (SUCCEED + 1)
@@ -171,7 +171,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LOOKBEHIND_END_t8_pb        ((LOOKBEHIND_END) * 4 + 2)
 #define LOOKBEHIND_END_t8_p8        ((LOOKBEHIND_END) * 4 + 3)
 
-/* 0x0003 |     3
+/* 0x03 :   3
    SBOL - Match "" at beginning of line: /^/, /\A/ */
 #define SBOL                        (LOOKBEHIND_END + 1)
 #define SBOL_tb                     ((SBOL) * 2)
@@ -181,7 +181,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SBOL_t8_pb                  ((SBOL) * 4 + 2)
 #define SBOL_t8_p8                  ((SBOL) * 4 + 3)
 
-/* 0x0003 |     3
+/* 0x03 :   3
    BOL - type alias for SBOL */
 #define BOL                         SBOL
 #define BOL_tb                      ((BOL) * 2)
@@ -191,7 +191,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BOL_t8_pb                   ((BOL) * 4 + 2)
 #define BOL_t8_p8                   ((BOL) * 4 + 3)
 
-/* 0x0004 |     4
+/* 0x04 :   4
    MBOL - Same, assuming multiline: /^/m */
 #define MBOL                        (SBOL + 1)
 #define MBOL_tb                     ((MBOL) * 2)
@@ -201,7 +201,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define MBOL_t8_pb                  ((MBOL) * 4 + 2)
 #define MBOL_t8_p8                  ((MBOL) * 4 + 3)
 
-/* 0x0005 |     5
+/* 0x05 :   5
    SEOL - Match "" at end of line: /$/ */
 #define SEOL                        (MBOL + 1)
 #define SEOL_tb                     ((SEOL) * 2)
@@ -211,7 +211,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SEOL_t8_pb                  ((SEOL) * 4 + 2)
 #define SEOL_t8_p8                  ((SEOL) * 4 + 3)
 
-/* 0x0005 |     5
+/* 0x05 :   5
    EOL - type alias for SEOL */
 #define EOL                         SEOL
 #define EOL_tb                      ((EOL) * 2)
@@ -221,7 +221,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EOL_t8_pb                   ((EOL) * 4 + 2)
 #define EOL_t8_p8                   ((EOL) * 4 + 3)
 
-/* 0x0006 |     6
+/* 0x06 :   6
    MEOL - Same, assuming multiline: /$/m */
 #define MEOL                        (SEOL + 1)
 #define MEOL_tb                     ((MEOL) * 2)
@@ -231,7 +231,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define MEOL_t8_pb                  ((MEOL) * 4 + 2)
 #define MEOL_t8_p8                  ((MEOL) * 4 + 3)
 
-/* 0x0007 |     7
+/* 0x07 :   7
    EOS - Match "" at end of string: /\z/ */
 #define EOS                         (MEOL + 1)
 #define EOS_tb                      ((EOS) * 2)
@@ -241,7 +241,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EOS_t8_pb                   ((EOS) * 4 + 2)
 #define EOS_t8_p8                   ((EOS) * 4 + 3)
 
-/* 0x0008 |     8
+/* 0x08 :   8
    GPOS - Matches where last m//g left off. */
 #define GPOS                        (EOS + 1)
 #define GPOS_tb                     ((GPOS) * 2)
@@ -251,7 +251,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define GPOS_t8_pb                  ((GPOS) * 4 + 2)
 #define GPOS_t8_p8                  ((GPOS) * 4 + 3)
 
-/* 0x0009 |     9
+/* 0x09 :   9
    BOUND - Like BOUNDA for non-utf8, otherwise like BOUNDU */
 #define BOUND                       (GPOS + 1)
 #define BOUND_tb                    ((BOUND) * 2)
@@ -261,7 +261,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BOUND_t8_pb                 ((BOUND) * 4 + 2)
 #define BOUND_t8_p8                 ((BOUND) * 4 + 3)
 
-/* 0x000a |    10
+/* 0x0a :  10
    BOUNDL - Like BOUND/BOUNDU, but \w and \W are defined by current locale */
 #define BOUNDL                      (BOUND + 1)
 #define BOUNDL_tb                   ((BOUNDL) * 2)
@@ -271,7 +271,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BOUNDL_t8_pb                ((BOUNDL) * 4 + 2)
 #define BOUNDL_t8_p8                ((BOUNDL) * 4 + 3)
 
-/* 0x000b |    11
+/* 0x0b :  11
    BOUNDU - Match "" at any boundary of a given type using /u rules. */
 #define BOUNDU                      (BOUNDL + 1)
 #define BOUNDU_tb                   ((BOUNDU) * 2)
@@ -281,7 +281,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BOUNDU_t8_pb                ((BOUNDU) * 4 + 2)
 #define BOUNDU_t8_p8                ((BOUNDU) * 4 + 3)
 
-/* 0x000c |    12
+/* 0x0c :  12
    BOUNDA - Match "" at any boundary between \w\W or \W\w, where \w is
    [_a-zA-Z0-9] */
 #define BOUNDA                      (BOUNDU + 1)
@@ -292,7 +292,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BOUNDA_t8_pb                ((BOUNDA) * 4 + 2)
 #define BOUNDA_t8_p8                ((BOUNDA) * 4 + 3)
 
-/* 0x000d |    13
+/* 0x0d :  13
    NBOUND - Like NBOUNDA for non-utf8, otherwise like BOUNDU */
 #define NBOUND                      (BOUNDA + 1)
 #define NBOUND_tb                   ((NBOUND) * 2)
@@ -302,7 +302,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NBOUND_t8_pb                ((NBOUND) * 4 + 2)
 #define NBOUND_t8_p8                ((NBOUND) * 4 + 3)
 
-/* 0x000e |    14
+/* 0x0e :  14
    NBOUNDL - Like NBOUND/NBOUNDU, but \w and \W are defined by current locale */
 #define NBOUNDL                     (NBOUND + 1)
 #define NBOUNDL_tb                  ((NBOUNDL) * 2)
@@ -312,7 +312,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NBOUNDL_t8_pb               ((NBOUNDL) * 4 + 2)
 #define NBOUNDL_t8_p8               ((NBOUNDL) * 4 + 3)
 
-/* 0x000f |    15
+/* 0x0f :  15
    NBOUNDU - Match "" at any non-boundary of a given type using /u rules. */
 #define NBOUNDU                     (NBOUNDL + 1)
 #define NBOUNDU_tb                  ((NBOUNDU) * 2)
@@ -322,7 +322,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NBOUNDU_t8_pb               ((NBOUNDU) * 4 + 2)
 #define NBOUNDU_t8_p8               ((NBOUNDU) * 4 + 3)
 
-/* 0x0010 |    16
+/* 0x10 :  16
    NBOUNDA - Match "" between any \w\w or \W\W, where \w is [_a-zA-Z0-9] */
 #define NBOUNDA                     (NBOUNDU + 1)
 #define NBOUNDA_tb                  ((NBOUNDA) * 2)
@@ -332,7 +332,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NBOUNDA_t8_pb               ((NBOUNDA) * 4 + 2)
 #define NBOUNDA_t8_p8               ((NBOUNDA) * 4 + 3)
 
-/* 0x0011 |    17
+/* 0x11 :  17
    REG_ANY - Match any one character (except newline). */
 #define REG_ANY                     (NBOUNDA + 1)
 #define REG_ANY_tb                  ((REG_ANY) * 2)
@@ -342,7 +342,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REG_ANY_t8_pb               ((REG_ANY) * 4 + 2)
 #define REG_ANY_t8_p8               ((REG_ANY) * 4 + 3)
 
-/* 0x0012 |    18
+/* 0x12 :  18
    SANY - Match any one character. */
 #define SANY                        (REG_ANY + 1)
 #define SANY_tb                     ((SANY) * 2)
@@ -352,7 +352,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SANY_t8_pb                  ((SANY) * 4 + 2)
 #define SANY_t8_p8                  ((SANY) * 4 + 3)
 
-/* 0x0013 |    19
+/* 0x13 :  19
    ANYOF - Match character in (or not in) this class, single char match only */
 #define ANYOF                       (SANY + 1)
 #define ANYOF_tb                    ((ANYOF) * 2)
@@ -362,7 +362,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOF_t8_pb                 ((ANYOF) * 4 + 2)
 #define ANYOF_t8_p8                 ((ANYOF) * 4 + 3)
 
-/* 0x0014 |    20
+/* 0x14 :  20
    ANYOFD - Like ANYOF, but /d is in effect */
 #define ANYOFD                      (ANYOF + 1)
 #define ANYOFD_tb                   ((ANYOFD) * 2)
@@ -372,7 +372,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFD_t8_pb                ((ANYOFD) * 4 + 2)
 #define ANYOFD_t8_p8                ((ANYOFD) * 4 + 3)
 
-/* 0x0015 |    21
+/* 0x15 :  21
    ANYOFL - Like ANYOF, but /l is in effect */
 #define ANYOFL                      (ANYOFD + 1)
 #define ANYOFL_tb                   ((ANYOFL) * 2)
@@ -382,7 +382,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFL_t8_pb                ((ANYOFL) * 4 + 2)
 #define ANYOFL_t8_p8                ((ANYOFL) * 4 + 3)
 
-/* 0x0016 |    22
+/* 0x16 :  22
    ANYOFPOSIXL - Like ANYOFL, but matches [[:posix:]] classes */
 #define ANYOFPOSIXL                 (ANYOFL + 1)
 #define ANYOFPOSIXL_tb              ((ANYOFPOSIXL) * 2)
@@ -392,7 +392,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFPOSIXL_t8_pb           ((ANYOFPOSIXL) * 4 + 2)
 #define ANYOFPOSIXL_t8_p8           ((ANYOFPOSIXL) * 4 + 3)
 
-/* 0x0017 |    23
+/* 0x17 :  23
    ANYOFH - Like ANYOF, but only has "High" matches, none in the bitmap; the
    flags field contains the lowest matchable UTF-8 start byte */
 #define ANYOFH                      (ANYOFPOSIXL + 1)
@@ -403,7 +403,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFH_t8_pb                ((ANYOFH) * 4 + 2)
 #define ANYOFH_t8_p8                ((ANYOFH) * 4 + 3)
 
-/* 0x0018 |    24
+/* 0x18 :  24
    ANYOFHb - Like ANYOFH, but all matches share the same UTF-8 start byte,
    given in the flags field */
 #define ANYOFHb                     (ANYOFH + 1)
@@ -414,7 +414,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFHb_t8_pb               ((ANYOFHb) * 4 + 2)
 #define ANYOFHb_t8_p8               ((ANYOFHb) * 4 + 3)
 
-/* 0x0019 |    25
+/* 0x19 :  25
    ANYOFHr - Like ANYOFH, but the flags field contains packed bounds for all
    matchable UTF-8 start bytes. */
 #define ANYOFHr                     (ANYOFHb + 1)
@@ -425,7 +425,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFHr_t8_pb               ((ANYOFHr) * 4 + 2)
 #define ANYOFHr_t8_p8               ((ANYOFHr) * 4 + 3)
 
-/* 0x001a |    26
+/* 0x1a :  26
    ANYOFHs - Like ANYOFHb, but has a string field that gives the leading
    matchable UTF-8 bytes; flags field is len */
 #define ANYOFHs                     (ANYOFHr + 1)
@@ -436,7 +436,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFHs_t8_pb               ((ANYOFHs) * 4 + 2)
 #define ANYOFHs_t8_p8               ((ANYOFHs) * 4 + 3)
 
-/* 0x001b |    27
+/* 0x1b :  27
    ANYOFR - Matches any character in the range given by its packed args: upper
    12 bits is the max delta from the base lower 20; the flags field contains
    the lowest matchable UTF-8 start byte */
@@ -448,7 +448,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFR_t8_pb                ((ANYOFR) * 4 + 2)
 #define ANYOFR_t8_p8                ((ANYOFR) * 4 + 3)
 
-/* 0x001c |    28
+/* 0x1c :  28
    ANYOFRb - Like ANYOFR, but all matches share the same UTF-8 start byte,
    given in the flags field */
 #define ANYOFRb                     (ANYOFR + 1)
@@ -459,7 +459,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFRb_t8_pb               ((ANYOFRb) * 4 + 2)
 #define ANYOFRb_t8_p8               ((ANYOFRb) * 4 + 3)
 
-/* 0x001d |    29
+/* 0x1d :  29
    ANYOFHbbm - Like ANYOFHb, but only for 2-byte UTF-8 characters; uses a
    bitmap to match the continuation byte */
 #define ANYOFHbbm                   (ANYOFRb + 1)
@@ -470,7 +470,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFHbbm_t8_pb             ((ANYOFHbbm) * 4 + 2)
 #define ANYOFHbbm_t8_p8             ((ANYOFHbbm) * 4 + 3)
 
-/* 0x001e |    30
+/* 0x1e :  30
    ANYOFM - Like ANYOF, but matches an invariant byte as determined by the
    mask and arg */
 #define ANYOFM                      (ANYOFHbbm + 1)
@@ -481,7 +481,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ANYOFM_t8_pb                ((ANYOFM) * 4 + 2)
 #define ANYOFM_t8_p8                ((ANYOFM) * 4 + 3)
 
-/* 0x001f |    31
+/* 0x1f :  31
    NANYOFM - complement of ANYOFM */
 #define NANYOFM                     (ANYOFM + 1)
 #define NANYOFM_tb                  ((NANYOFM) * 2)
@@ -491,7 +491,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NANYOFM_t8_pb               ((NANYOFM) * 4 + 2)
 #define NANYOFM_t8_p8               ((NANYOFM) * 4 + 3)
 
-/* 0x0020 |    32
+/* 0x20 :  32
    POSIXD - Some [[:class:]] under /d; the FLAGS field gives which one */
 #define POSIXD                      (NANYOFM + 1)
 #define POSIXD_tb                   ((POSIXD) * 2)
@@ -501,7 +501,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define POSIXD_t8_pb                ((POSIXD) * 4 + 2)
 #define POSIXD_t8_p8                ((POSIXD) * 4 + 3)
 
-/* 0x0021 |    33
+/* 0x21 :  33
    POSIXL - Some [[:class:]] under /l; the FLAGS field gives which one */
 #define POSIXL                      (POSIXD + 1)
 #define POSIXL_tb                   ((POSIXL) * 2)
@@ -511,7 +511,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define POSIXL_t8_pb                ((POSIXL) * 4 + 2)
 #define POSIXL_t8_p8                ((POSIXL) * 4 + 3)
 
-/* 0x0022 |    34
+/* 0x22 :  34
    POSIXU - Some [[:class:]] under /u; the FLAGS field gives which one */
 #define POSIXU                      (POSIXL + 1)
 #define POSIXU_tb                   ((POSIXU) * 2)
@@ -521,7 +521,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define POSIXU_t8_pb                ((POSIXU) * 4 + 2)
 #define POSIXU_t8_p8                ((POSIXU) * 4 + 3)
 
-/* 0x0023 |    35
+/* 0x23 :  35
    POSIXA - Some [[:class:]] under /a; the FLAGS field gives which one */
 #define POSIXA                      (POSIXU + 1)
 #define POSIXA_tb                   ((POSIXA) * 2)
@@ -531,7 +531,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define POSIXA_t8_pb                ((POSIXA) * 4 + 2)
 #define POSIXA_t8_p8                ((POSIXA) * 4 + 3)
 
-/* 0x0024 |    36
+/* 0x24 :  36
    NPOSIXD - complement of POSIXD, [[:^class:]] */
 #define NPOSIXD                     (POSIXA + 1)
 #define NPOSIXD_tb                  ((NPOSIXD) * 2)
@@ -541,7 +541,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NPOSIXD_t8_pb               ((NPOSIXD) * 4 + 2)
 #define NPOSIXD_t8_p8               ((NPOSIXD) * 4 + 3)
 
-/* 0x0025 |    37
+/* 0x25 :  37
    NPOSIXL - complement of POSIXL, [[:^class:]] */
 #define NPOSIXL                     (NPOSIXD + 1)
 #define NPOSIXL_tb                  ((NPOSIXL) * 2)
@@ -551,7 +551,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NPOSIXL_t8_pb               ((NPOSIXL) * 4 + 2)
 #define NPOSIXL_t8_p8               ((NPOSIXL) * 4 + 3)
 
-/* 0x0026 |    38
+/* 0x26 :  38
    NPOSIXU - complement of POSIXU, [[:^class:]] */
 #define NPOSIXU                     (NPOSIXL + 1)
 #define NPOSIXU_tb                  ((NPOSIXU) * 2)
@@ -561,7 +561,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NPOSIXU_t8_pb               ((NPOSIXU) * 4 + 2)
 #define NPOSIXU_t8_p8               ((NPOSIXU) * 4 + 3)
 
-/* 0x0027 |    39
+/* 0x27 :  39
    NPOSIXA - complement of POSIXA, [[:^class:]] */
 #define NPOSIXA                     (NPOSIXU + 1)
 #define NPOSIXA_tb                  ((NPOSIXA) * 2)
@@ -571,7 +571,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NPOSIXA_t8_pb               ((NPOSIXA) * 4 + 2)
 #define NPOSIXA_t8_p8               ((NPOSIXA) * 4 + 3)
 
-/* 0x0028 |    40
+/* 0x28 :  40
    CLUMP - Match any extended grapheme cluster sequence */
 #define CLUMP                       (NPOSIXA + 1)
 #define CLUMP_tb                    ((CLUMP) * 2)
@@ -581,7 +581,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CLUMP_t8_pb                 ((CLUMP) * 4 + 2)
 #define CLUMP_t8_p8                 ((CLUMP) * 4 + 3)
 
-/* 0x0029 |    41
+/* 0x29 :  41
    BRANCH - Match this alternative, or the next... */
 #define BRANCH                      (CLUMP + 1)
 #define BRANCH_tb                   ((BRANCH) * 2)
@@ -591,7 +591,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BRANCH_t8_pb                ((BRANCH) * 4 + 2)
 #define BRANCH_t8_p8                ((BRANCH) * 4 + 3)
 
-/* 0x002a |    42
+/* 0x2a :  42
    EXACT - Match this string (flags field is the length). */
 #define EXACT                       (BRANCH + 1)
 #define EXACT_tb                    ((EXACT) * 2)
@@ -601,7 +601,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACT_t8_pb                 ((EXACT) * 4 + 2)
 #define EXACT_t8_p8                 ((EXACT) * 4 + 3)
 
-/* 0x002b |    43
+/* 0x2b :  43
    LEXACT - Match this long string (preceded by length; flags unused). */
 #define LEXACT                      (EXACT + 1)
 #define LEXACT_tb                   ((LEXACT) * 2)
@@ -611,7 +611,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LEXACT_t8_pb                ((LEXACT) * 4 + 2)
 #define LEXACT_t8_p8                ((LEXACT) * 4 + 3)
 
-/* 0x002c |    44
+/* 0x2c :  44
    EXACTL - Like EXACT, but /l is in effect (used so locale-related warnings
    can be checked for) */
 #define EXACTL                      (LEXACT + 1)
@@ -622,7 +622,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTL_t8_pb                ((EXACTL) * 4 + 2)
 #define EXACTL_t8_p8                ((EXACTL) * 4 + 3)
 
-/* 0x002d |    45
+/* 0x2d :  45
    EXACTF - Like EXACT, but match using /id rules; (string not UTF-8, ASCII
    folded; non-ASCII not) */
 #define EXACTF                      (EXACTL + 1)
@@ -633,7 +633,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTF_t8_pb                ((EXACTF) * 4 + 2)
 #define EXACTF_t8_p8                ((EXACTF) * 4 + 3)
 
-/* 0x002e |    46
+/* 0x2e :  46
    EXACTFL - Like EXACT, but match using /il rules; (string not likely to be
    folded) */
 #define EXACTFL                     (EXACTF + 1)
@@ -644,7 +644,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFL_t8_pb               ((EXACTFL) * 4 + 2)
 #define EXACTFL_t8_p8               ((EXACTFL) * 4 + 3)
 
-/* 0x002f |    47
+/* 0x2f :  47
    EXACTFU - Like EXACT, but match using /iu rules; (string folded) */
 #define EXACTFU                     (EXACTFL + 1)
 #define EXACTFU_tb                  ((EXACTFU) * 2)
@@ -654,7 +654,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFU_t8_pb               ((EXACTFU) * 4 + 2)
 #define EXACTFU_t8_p8               ((EXACTFU) * 4 + 3)
 
-/* 0x0030 |    48
+/* 0x30 :  48
    EXACTFAA - Like EXACT, but match using /iaa rules; (string folded except
    MICRO in non-UTF8 patterns; doesn't contain SHARP S unless UTF-8; folded
    length <= unfolded) */
@@ -666,7 +666,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFAA_t8_pb              ((EXACTFAA) * 4 + 2)
 #define EXACTFAA_t8_p8              ((EXACTFAA) * 4 + 3)
 
-/* 0x0031 |    49
+/* 0x31 :  49
    EXACTFAA_NO_TRIE - Like EXACTFAA, (string not UTF-8, folded except: MICRO,
    SHARP S; folded length <= unfolded, not currently trie-able) */
 #define EXACTFAA_NO_TRIE            (EXACTFAA + 1)
@@ -677,7 +677,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFAA_NO_TRIE_t8_pb      ((EXACTFAA_NO_TRIE) * 4 + 2)
 #define EXACTFAA_NO_TRIE_t8_p8      ((EXACTFAA_NO_TRIE) * 4 + 3)
 
-/* 0x0032 |    50
+/* 0x32 :  50
    EXACTFUP - Like EXACT, but match using /iu rules; (string not UTF-8, folded
    except MICRO: hence Problematic) */
 #define EXACTFUP                    (EXACTFAA_NO_TRIE + 1)
@@ -688,7 +688,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFUP_t8_pb              ((EXACTFUP) * 4 + 2)
 #define EXACTFUP_t8_p8              ((EXACTFUP) * 4 + 3)
 
-/* 0x0033 |    51
+/* 0x33 :  51
    EXACTFLU8 - Like EXACTFU, but use /il, UTF-8, (string is folded, and
    everything in it is above 255 */
 #define EXACTFLU8                   (EXACTFUP + 1)
@@ -699,7 +699,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFLU8_t8_pb             ((EXACTFLU8) * 4 + 2)
 #define EXACTFLU8_t8_p8             ((EXACTFLU8) * 4 + 3)
 
-/* 0x0034 |    52
+/* 0x34 :  52
    EXACT_REQ8 - Like EXACT, but only UTF-8 encoded targets can match */
 #define EXACT_REQ8                  (EXACTFLU8 + 1)
 #define EXACT_REQ8_tb               ((EXACT_REQ8) * 2)
@@ -709,7 +709,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACT_REQ8_t8_pb            ((EXACT_REQ8) * 4 + 2)
 #define EXACT_REQ8_t8_p8            ((EXACT_REQ8) * 4 + 3)
 
-/* 0x0035 |    53
+/* 0x35 :  53
    LEXACT_REQ8 - Like LEXACT, but only UTF-8 encoded targets can match */
 #define LEXACT_REQ8                 (EXACT_REQ8 + 1)
 #define LEXACT_REQ8_tb              ((LEXACT_REQ8) * 2)
@@ -719,7 +719,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LEXACT_REQ8_t8_pb           ((LEXACT_REQ8) * 4 + 2)
 #define LEXACT_REQ8_t8_p8           ((LEXACT_REQ8) * 4 + 3)
 
-/* 0x0036 |    54
+/* 0x36 :  54
    EXACTFU_REQ8 - Like EXACTFU, but only UTF-8 encoded targets can match */
 #define EXACTFU_REQ8                (LEXACT_REQ8 + 1)
 #define EXACTFU_REQ8_tb             ((EXACTFU_REQ8) * 2)
@@ -729,7 +729,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFU_REQ8_t8_pb          ((EXACTFU_REQ8) * 4 + 2)
 #define EXACTFU_REQ8_t8_p8          ((EXACTFU_REQ8) * 4 + 3)
 
-/* 0x0037 |    55
+/* 0x37 :  55
    EXACTFU_S_EDGE - /di rules, but nothing in it precludes /ui, except begins
    and/or ends with [Ss]; (string not UTF-8; compile-time only) */
 #define EXACTFU_S_EDGE              (EXACTFU_REQ8 + 1)
@@ -740,7 +740,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EXACTFU_S_EDGE_t8_pb        ((EXACTFU_S_EDGE) * 4 + 2)
 #define EXACTFU_S_EDGE_t8_p8        ((EXACTFU_S_EDGE) * 4 + 3)
 
-/* 0x0038 |    56
+/* 0x38 :  56
    LNBREAK - generic newline pattern */
 #define LNBREAK                     (EXACTFU_S_EDGE + 1)
 #define LNBREAK_tb                  ((LNBREAK) * 2)
@@ -750,7 +750,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LNBREAK_t8_pb               ((LNBREAK) * 4 + 2)
 #define LNBREAK_t8_p8               ((LNBREAK) * 4 + 3)
 
-/* 0x0039 |    57
+/* 0x39 :  57
    TRIE - Match many EXACT(F[ALU]?)? at once. flags==type */
 #define TRIE                        (LNBREAK + 1)
 #define TRIE_tb                     ((TRIE) * 2)
@@ -760,7 +760,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define TRIE_t8_pb                  ((TRIE) * 4 + 2)
 #define TRIE_t8_p8                  ((TRIE) * 4 + 3)
 
-/* 0x003a |    58
+/* 0x3a :  58
    TRIEC - Same as TRIE, but with embedded charclass data */
 #define TRIEC                       (TRIE + 1)
 #define TRIEC_tb                    ((TRIEC) * 2)
@@ -770,7 +770,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define TRIEC_t8_pb                 ((TRIEC) * 4 + 2)
 #define TRIEC_t8_p8                 ((TRIEC) * 4 + 3)
 
-/* 0x003b |    59
+/* 0x3b :  59
    AHOCORASICK - Aho Corasick stclass. flags==type */
 #define AHOCORASICK                 (TRIEC + 1)
 #define AHOCORASICK_tb              ((AHOCORASICK) * 2)
@@ -780,7 +780,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define AHOCORASICK_t8_pb           ((AHOCORASICK) * 4 + 2)
 #define AHOCORASICK_t8_p8           ((AHOCORASICK) * 4 + 3)
 
-/* 0x003c |    60
+/* 0x3c :  60
    AHOCORASICKC - Same as AHOCORASICK, but with embedded charclass data */
 #define AHOCORASICKC                (AHOCORASICK + 1)
 #define AHOCORASICKC_tb             ((AHOCORASICKC) * 2)
@@ -790,7 +790,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define AHOCORASICKC_t8_pb          ((AHOCORASICKC) * 4 + 2)
 #define AHOCORASICKC_t8_p8          ((AHOCORASICKC) * 4 + 3)
 
-/* 0x003d |    61
+/* 0x3d :  61
    LTRIE - Same as TRIE, but with longjump support */
 #define LTRIE                       (AHOCORASICKC + 1)
 #define LTRIE_tb                    ((LTRIE) * 2)
@@ -800,7 +800,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LTRIE_t8_pb                 ((LTRIE) * 4 + 2)
 #define LTRIE_t8_p8                 ((LTRIE) * 4 + 3)
 
-/* 0x003e |    62
+/* 0x3e :  62
    LTRIEC - Same as TRIEC, but with longjump support */
 #define LTRIEC                      (LTRIE + 1)
 #define LTRIEC_tb                   ((LTRIEC) * 2)
@@ -810,7 +810,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LTRIEC_t8_pb                ((LTRIEC) * 4 + 2)
 #define LTRIEC_t8_p8                ((LTRIEC) * 4 + 3)
 
-/* 0x003f |    63
+/* 0x3f :  63
    NOTHING - Match empty string. */
 #define NOTHING                     (LTRIEC + 1)
 #define NOTHING_tb                  ((NOTHING) * 2)
@@ -820,7 +820,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define NOTHING_t8_pb               ((NOTHING) * 4 + 2)
 #define NOTHING_t8_p8               ((NOTHING) * 4 + 3)
 
-/* 0x0040 |    64
+/* 0x40 :  64
    TAIL - Match empty string. Can jump here from outside. */
 #define TAIL                        (NOTHING + 1)
 #define TAIL_tb                     ((TAIL) * 2)
@@ -830,7 +830,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define TAIL_t8_pb                  ((TAIL) * 4 + 2)
 #define TAIL_t8_p8                  ((TAIL) * 4 + 3)
 
-/* 0x0041 |    65
+/* 0x41 :  65
    OPTIMIZED - This is not really a node, but an optimized away piece of a
    "long" node.  To simplify debugging output, we mark it as if it were a node */
 #define OPTIMIZED                   (TAIL + 1)
@@ -841,7 +841,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define OPTIMIZED_t8_pb             ((OPTIMIZED) * 4 + 2)
 #define OPTIMIZED_t8_p8             ((OPTIMIZED) * 4 + 3)
 
-/* 0x0042 |    66
+/* 0x42 :  66
    STAR - Match this (simple) thing 0 or more times: /A{0,}B/ where A is width
    1 char */
 #define STAR                        (OPTIMIZED + 1)
@@ -852,7 +852,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define STAR_t8_pb                  ((STAR) * 4 + 2)
 #define STAR_t8_p8                  ((STAR) * 4 + 3)
 
-/* 0x0043 |    67
+/* 0x43 :  67
    PLUS - Match this (simple) thing 1 or more times: /A{1,}B/ where A is width
    1 char */
 #define PLUS                        (STAR + 1)
@@ -863,7 +863,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define PLUS_t8_pb                  ((PLUS) * 4 + 2)
 #define PLUS_t8_p8                  ((PLUS) * 4 + 3)
 
-/* 0x0044 |    68
+/* 0x44 :  68
    CURLY - Match this (simple) thing {n,m} times: /A{m,n}B/ where A is width 1
    char */
 #define CURLY                       (PLUS + 1)
@@ -874,7 +874,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLY_t8_pb                 ((CURLY) * 4 + 2)
 #define CURLY_t8_p8                 ((CURLY) * 4 + 3)
 
-/* 0x0045 |    69
+/* 0x45 :  69
    CURLYN - Capture next-after-this simple thing: /(A){m,n}B/ where A is width
    1 char */
 #define CURLYN                      (CURLY + 1)
@@ -885,7 +885,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYN_t8_pb                ((CURLYN) * 4 + 2)
 #define CURLYN_t8_p8                ((CURLYN) * 4 + 3)
 
-/* 0x0046 |    70
+/* 0x46 :  70
    CURLYM - Capture this medium-complex thing {n,m} times: /(A){m,n}B/ where A
    is fixed-length */
 #define CURLYM                      (CURLYN + 1)
@@ -896,7 +896,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYM_t8_pb                ((CURLYM) * 4 + 2)
 #define CURLYM_t8_p8                ((CURLYM) * 4 + 3)
 
-/* 0x0047 |    71
+/* 0x47 :  71
    CURLYX - Match/Capture this complex thing {n,m} times. */
 #define CURLYX                      (CURLYM + 1)
 #define CURLYX_tb                   ((CURLYX) * 2)
@@ -906,7 +906,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYX_t8_pb                ((CURLYX) * 4 + 2)
 #define CURLYX_t8_p8                ((CURLYX) * 4 + 3)
 
-/* 0x0048 |    72
+/* 0x48 :  72
    WHILEM - Do curly processing and see if rest matches. */
 #define WHILEM                      (CURLYX + 1)
 #define WHILEM_tb                   ((WHILEM) * 2)
@@ -916,7 +916,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_t8_pb                ((WHILEM) * 4 + 2)
 #define WHILEM_t8_p8                ((WHILEM) * 4 + 3)
 
-/* 0x0049 |    73
+/* 0x49 :  73
    OPEN - Mark this point in input as start of #n. */
 #define OPEN                        (WHILEM + 1)
 #define OPEN_tb                     ((OPEN) * 2)
@@ -926,7 +926,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define OPEN_t8_pb                  ((OPEN) * 4 + 2)
 #define OPEN_t8_p8                  ((OPEN) * 4 + 3)
 
-/* 0x004a |    74
+/* 0x4a :  74
    CLOSE - Close corresponding OPEN of #n. */
 #define CLOSE                       (OPEN + 1)
 #define CLOSE_tb                    ((CLOSE) * 2)
@@ -936,7 +936,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CLOSE_t8_pb                 ((CLOSE) * 4 + 2)
 #define CLOSE_t8_p8                 ((CLOSE) * 4 + 3)
 
-/* 0x004b |    75
+/* 0x4b :  75
    SROPEN - Start a script run */
 #define SROPEN                      (CLOSE + 1)
 #define SROPEN_tb                   ((SROPEN) * 2)
@@ -946,7 +946,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SROPEN_t8_pb                ((SROPEN) * 4 + 2)
 #define SROPEN_t8_p8                ((SROPEN) * 4 + 3)
 
-/* 0x004c |    76
+/* 0x4c :  76
    SRCLOSE -  */
 #define SRCLOSE                     (SROPEN + 1)
 #define SRCLOSE_tb                  ((SRCLOSE) * 2)
@@ -956,7 +956,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SRCLOSE_t8_pb               ((SRCLOSE) * 4 + 2)
 #define SRCLOSE_t8_p8               ((SRCLOSE) * 4 + 3)
 
-/* 0x004d |    77
+/* 0x4d :  77
    REF - Match some already matched string */
 #define REF                         (SRCLOSE + 1)
 #define REF_tb                      ((REF) * 2)
@@ -966,7 +966,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REF_t8_pb                   ((REF) * 4 + 2)
 #define REF_t8_p8                   ((REF) * 4 + 3)
 
-/* 0x004e |    78
+/* 0x4e :  78
    REFF - Match already matched string, using /di rules. */
 #define REFF                        (REF + 1)
 #define REFF_tb                     ((REFF) * 2)
@@ -976,7 +976,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFF_t8_pb                  ((REFF) * 4 + 2)
 #define REFF_t8_p8                  ((REFF) * 4 + 3)
 
-/* 0x004f |    79
+/* 0x4f :  79
    REFFL - Match already matched string, using /li rules. */
 #define REFFL                       (REFF + 1)
 #define REFFL_tb                    ((REFFL) * 2)
@@ -986,7 +986,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFL_t8_pb                 ((REFFL) * 4 + 2)
 #define REFFL_t8_p8                 ((REFFL) * 4 + 3)
 
-/* 0x0050 |    80
+/* 0x50 :  80
    REFFU - Match already matched string, using /ui. */
 #define REFFU                       (REFFL + 1)
 #define REFFU_tb                    ((REFFU) * 2)
@@ -996,7 +996,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFU_t8_pb                 ((REFFU) * 4 + 2)
 #define REFFU_t8_p8                 ((REFFU) * 4 + 3)
 
-/* 0x0051 |    81
+/* 0x51 :  81
    REFFA - Match already matched string, using /aai rules. */
 #define REFFA                       (REFFU + 1)
 #define REFFA_tb                    ((REFFA) * 2)
@@ -1006,7 +1006,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFA_t8_pb                 ((REFFA) * 4 + 2)
 #define REFFA_t8_p8                 ((REFFA) * 4 + 3)
 
-/* 0x0052 |    82
+/* 0x52 :  82
    REFN - Match some already matched string */
 #define REFN                        (REFFA + 1)
 #define REFN_tb                     ((REFN) * 2)
@@ -1016,7 +1016,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFN_t8_pb                  ((REFN) * 4 + 2)
 #define REFN_t8_p8                  ((REFN) * 4 + 3)
 
-/* 0x0053 |    83
+/* 0x53 :  83
    REFFN - Match already matched string, using /di rules. */
 #define REFFN                       (REFN + 1)
 #define REFFN_tb                    ((REFFN) * 2)
@@ -1026,7 +1026,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFN_t8_pb                 ((REFFN) * 4 + 2)
 #define REFFN_t8_p8                 ((REFFN) * 4 + 3)
 
-/* 0x0054 |    84
+/* 0x54 :  84
    REFFLN - Match already matched string, using /li rules. */
 #define REFFLN                      (REFFN + 1)
 #define REFFLN_tb                   ((REFFLN) * 2)
@@ -1036,7 +1036,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFLN_t8_pb                ((REFFLN) * 4 + 2)
 #define REFFLN_t8_p8                ((REFFLN) * 4 + 3)
 
-/* 0x0055 |    85
+/* 0x55 :  85
    REFFUN - Match already matched string, using /ui rules. */
 #define REFFUN                      (REFFLN + 1)
 #define REFFUN_tb                   ((REFFUN) * 2)
@@ -1046,7 +1046,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFUN_t8_pb                ((REFFUN) * 4 + 2)
 #define REFFUN_t8_p8                ((REFFUN) * 4 + 3)
 
-/* 0x0056 |    86
+/* 0x56 :  86
    REFFAN - Match already matched string, using /aai rules. */
 #define REFFAN                      (REFFUN + 1)
 #define REFFAN_tb                   ((REFFAN) * 2)
@@ -1056,7 +1056,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REFFAN_t8_pb                ((REFFAN) * 4 + 2)
 #define REFFAN_t8_p8                ((REFFAN) * 4 + 3)
 
-/* 0x0057 |    87
+/* 0x57 :  87
    BRANCHJ - BRANCH with long offset. */
 #define BRANCHJ                     (REFFAN + 1)
 #define BRANCHJ_tb                  ((BRANCHJ) * 2)
@@ -1066,7 +1066,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BRANCHJ_t8_pb               ((BRANCHJ) * 4 + 2)
 #define BRANCHJ_t8_p8               ((BRANCHJ) * 4 + 3)
 
-/* 0x0058 |    88
+/* 0x58 :  88
    IFMATCH - Succeeds if the following matches; non-zero flags "f", next_off
    "o" means lookbehind assertion starting "f..(f-o)" characters before
    current */
@@ -1078,7 +1078,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define IFMATCH_t8_pb               ((IFMATCH) * 4 + 2)
 #define IFMATCH_t8_p8               ((IFMATCH) * 4 + 3)
 
-/* 0x0059 |    89
+/* 0x59 :  89
    UNLESSM - Fails if the following matches; non-zero flags "f", next_off "o"
    means lookbehind assertion starting "f..(f-o)" characters before current */
 #define UNLESSM                     (IFMATCH + 1)
@@ -1089,7 +1089,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define UNLESSM_t8_pb               ((UNLESSM) * 4 + 2)
 #define UNLESSM_t8_p8               ((UNLESSM) * 4 + 3)
 
-/* 0x005a |    90
+/* 0x5a :  90
    SUSPEND - "Independent" sub-RE. */
 #define SUSPEND                     (UNLESSM + 1)
 #define SUSPEND_tb                  ((SUSPEND) * 2)
@@ -1099,7 +1099,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SUSPEND_t8_pb               ((SUSPEND) * 4 + 2)
 #define SUSPEND_t8_p8               ((SUSPEND) * 4 + 3)
 
-/* 0x005b |    91
+/* 0x5b :  91
    IFTHEN - Switch, should be preceded by switcher. */
 #define IFTHEN                      (SUSPEND + 1)
 #define IFTHEN_tb                   ((IFTHEN) * 2)
@@ -1109,7 +1109,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define IFTHEN_t8_pb                ((IFTHEN) * 4 + 2)
 #define IFTHEN_t8_p8                ((IFTHEN) * 4 + 3)
 
-/* 0x005c |    92
+/* 0x5c :  92
    RENUM - Group with independently numbered parens. Not used yet. */
 #define RENUM                       (IFTHEN + 1)
 #define RENUM_tb                    ((RENUM) * 2)
@@ -1119,7 +1119,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define RENUM_t8_pb                 ((RENUM) * 4 + 2)
 #define RENUM_t8_p8                 ((RENUM) * 4 + 3)
 
-/* 0x005d |    93
+/* 0x5d :  93
    LONGJMP - Jump far away. */
 #define LONGJMP                     (RENUM + 1)
 #define LONGJMP_tb                  ((LONGJMP) * 2)
@@ -1129,7 +1129,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LONGJMP_t8_pb               ((LONGJMP) * 4 + 2)
 #define LONGJMP_t8_p8               ((LONGJMP) * 4 + 3)
 
-/* 0x005e |    94
+/* 0x5e :  94
    MINMOD - Next operator is not greedy. */
 #define MINMOD                      (LONGJMP + 1)
 #define MINMOD_tb                   ((MINMOD) * 2)
@@ -1139,7 +1139,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define MINMOD_t8_pb                ((MINMOD) * 4 + 2)
 #define MINMOD_t8_p8                ((MINMOD) * 4 + 3)
 
-/* 0x005f |    95
+/* 0x5f :  95
    LOGICAL - Next opcode should set the flag only. */
 #define LOGICAL                     (MINMOD + 1)
 #define LOGICAL_tb                  ((LOGICAL) * 2)
@@ -1149,7 +1149,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define LOGICAL_t8_pb               ((LOGICAL) * 4 + 2)
 #define LOGICAL_t8_p8               ((LOGICAL) * 4 + 3)
 
-/* 0x0060 |    96
+/* 0x60 :  96
    EVAL - Execute some Perl code. Used by other opcodes in some cases */
 #define EVAL                        (LOGICAL + 1)
 #define EVAL_tb                     ((EVAL) * 2)
@@ -1159,7 +1159,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_t8_pb                  ((EVAL) * 4 + 2)
 #define EVAL_t8_p8                  ((EVAL) * 4 + 3)
 
-/* 0x0061 |    97
+/* 0x61 :  97
    GOSUB - recurse to paren arg1 at (signed) ofs arg2 */
 #define GOSUB                       (EVAL + 1)
 #define GOSUB_tb                    ((GOSUB) * 2)
@@ -1169,7 +1169,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define GOSUB_t8_pb                 ((GOSUB) * 4 + 2)
 #define GOSUB_t8_p8                 ((GOSUB) * 4 + 3)
 
-/* 0x0062 |    98
+/* 0x62 :  98
    GROUPP - Whether the group matched. */
 #define GROUPP                      (GOSUB + 1)
 #define GROUPP_tb                   ((GROUPP) * 2)
@@ -1179,7 +1179,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define GROUPP_t8_pb                ((GROUPP) * 4 + 2)
 #define GROUPP_t8_p8                ((GROUPP) * 4 + 3)
 
-/* 0x0063 |    99
+/* 0x63 :  99
    GROUPPN - Whether the named group matched. */
 #define GROUPPN                     (GROUPP + 1)
 #define GROUPPN_tb                  ((GROUPPN) * 2)
@@ -1189,7 +1189,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define GROUPPN_t8_pb               ((GROUPPN) * 4 + 2)
 #define GROUPPN_t8_p8               ((GROUPPN) * 4 + 3)
 
-/* 0x0064 |   100
+/* 0x64 : 100
    INSUBP - Whether we are in a specific recurse. */
 #define INSUBP                      (GROUPPN + 1)
 #define INSUBP_tb                   ((INSUBP) * 2)
@@ -1199,7 +1199,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define INSUBP_t8_pb                ((INSUBP) * 4 + 2)
 #define INSUBP_t8_p8                ((INSUBP) * 4 + 3)
 
-/* 0x0065 |   101
+/* 0x65 : 101
    DEFINEP - Define regex subroutines. Contents never executed directly,
    disallows 'no' branch in conditional. */
 #define DEFINEP                     (INSUBP + 1)
@@ -1210,7 +1210,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define DEFINEP_t8_pb               ((DEFINEP) * 4 + 2)
 #define DEFINEP_t8_p8               ((DEFINEP) * 4 + 3)
 
-/* 0x0066 |   102
+/* 0x66 : 102
    ENDLIKE - Used only for the type field of verbs */
 #define ENDLIKE                     (DEFINEP + 1)
 #define ENDLIKE_tb                  ((ENDLIKE) * 2)
@@ -1220,7 +1220,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ENDLIKE_t8_pb               ((ENDLIKE) * 4 + 2)
 #define ENDLIKE_t8_p8               ((ENDLIKE) * 4 + 3)
 
-/* 0x0067 |   103
+/* 0x67 : 103
    OPFAIL - Same as (?!), but with verb arg */
 #define OPFAIL                      (ENDLIKE + 1)
 #define OPFAIL_tb                   ((OPFAIL) * 2)
@@ -1230,7 +1230,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define OPFAIL_t8_pb                ((OPFAIL) * 4 + 2)
 #define OPFAIL_t8_p8                ((OPFAIL) * 4 + 3)
 
-/* 0x0068 |   104
+/* 0x68 : 104
    ACCEPT - Accepts the current matched string, with verbar */
 #define ACCEPT                      (OPFAIL + 1)
 #define ACCEPT_tb                   ((ACCEPT) * 2)
@@ -1240,7 +1240,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define ACCEPT_t8_pb                ((ACCEPT) * 4 + 2)
 #define ACCEPT_t8_p8                ((ACCEPT) * 4 + 3)
 
-/* 0x0069 |   105
+/* 0x69 : 105
    VERB - Used only for the type field of verbs */
 #define VERB                        (ACCEPT + 1)
 #define VERB_tb                     ((VERB) * 2)
@@ -1250,7 +1250,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define VERB_t8_pb                  ((VERB) * 4 + 2)
 #define VERB_t8_p8                  ((VERB) * 4 + 3)
 
-/* 0x006a |   106
+/* 0x6a : 106
    PRUNE - Pattern fails at this startpoint if no-backtracking through this */
 #define PRUNE                       (VERB + 1)
 #define PRUNE_tb                    ((PRUNE) * 2)
@@ -1260,7 +1260,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define PRUNE_t8_pb                 ((PRUNE) * 4 + 2)
 #define PRUNE_t8_p8                 ((PRUNE) * 4 + 3)
 
-/* 0x006b |   107
+/* 0x6b : 107
    MARKPOINT - Push the current location for rollback by cut. */
 #define MARKPOINT                   (PRUNE + 1)
 #define MARKPOINT_tb                ((MARKPOINT) * 2)
@@ -1270,7 +1270,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define MARKPOINT_t8_pb             ((MARKPOINT) * 4 + 2)
 #define MARKPOINT_t8_p8             ((MARKPOINT) * 4 + 3)
 
-/* 0x006c |   108
+/* 0x6c : 108
    SKIP - On failure skip forward (to the mark) before retrying */
 #define SKIP                        (MARKPOINT + 1)
 #define SKIP_tb                     ((SKIP) * 2)
@@ -1280,7 +1280,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SKIP_t8_pb                  ((SKIP) * 4 + 2)
 #define SKIP_t8_p8                  ((SKIP) * 4 + 3)
 
-/* 0x006d |   109
+/* 0x6d : 109
    COMMIT - Pattern fails outright if backtracking through this */
 #define COMMIT                      (SKIP + 1)
 #define COMMIT_tb                   ((COMMIT) * 2)
@@ -1290,7 +1290,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define COMMIT_t8_pb                ((COMMIT) * 4 + 2)
 #define COMMIT_t8_p8                ((COMMIT) * 4 + 3)
 
-/* 0x006e |   110
+/* 0x6e : 110
    CUTGROUP - On failure go to the next alternation in the group */
 #define CUTGROUP                    (COMMIT + 1)
 #define CUTGROUP_tb                 ((CUTGROUP) * 2)
@@ -1300,7 +1300,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CUTGROUP_t8_pb              ((CUTGROUP) * 4 + 2)
 #define CUTGROUP_t8_p8              ((CUTGROUP) * 4 + 3)
 
-/* 0x006f |   111
+/* 0x6f : 111
    KEEPS - $& begins here. */
 #define KEEPS                       (CUTGROUP + 1)
 #define KEEPS_tb                    ((KEEPS) * 2)
@@ -1310,7 +1310,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define KEEPS_t8_pb                 ((KEEPS) * 4 + 2)
 #define KEEPS_t8_p8                 ((KEEPS) * 4 + 3)
 
-/* 0x0070 |   112
+/* 0x70 : 112
    PSEUDO - Pseudo opcode for internal use. */
 #define PSEUDO                      (KEEPS + 1)
 #define PSEUDO_tb                   ((PSEUDO) * 2)
@@ -1320,7 +1320,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define PSEUDO_t8_pb                ((PSEUDO) * 4 + 2)
 #define PSEUDO_t8_p8                ((PSEUDO) * 4 + 3)
 
-/* 0x0071 |   113
+/* 0x71 : 113
    REGEX_SET - Regex set, temporary node used in pre-optimization compilation */
 #define REGEX_SET                   (PSEUDO + 1)
 #define REGEX_SET_tb                ((REGEX_SET) * 2)
@@ -1331,7 +1331,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REGEX_SET_t8_p8             ((REGEX_SET) * 4 + 3)
 
 	/* ------------ States ------------- */
-/* 0x0072 |   114
+/* 0x72 : 114
    TRIE_next - state for TRIE */
 #define TRIE_next                   (REGNODE_MAX + 1)
 #define TRIE_next_tb                ((TRIE_next) * 2)
@@ -1341,7 +1341,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define TRIE_next_t8_pb             ((TRIE_next) * 4 + 2)
 #define TRIE_next_t8_p8             ((TRIE_next) * 4 + 3)
 
-/* 0x0073 |   115
+/* 0x73 : 115
    TRIE_next_fail - state for TRIE */
 #define TRIE_next_fail              (TRIE_next + 1)
 #define TRIE_next_fail_tb           ((TRIE_next_fail) * 2)
@@ -1351,7 +1351,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define TRIE_next_fail_t8_pb        ((TRIE_next_fail) * 4 + 2)
 #define TRIE_next_fail_t8_p8        ((TRIE_next_fail) * 4 + 3)
 
-/* 0x0074 |   116
+/* 0x74 : 116
    EVAL_B - state for EVAL */
 #define EVAL_B                      (TRIE_next_fail + 1)
 #define EVAL_B_tb                   ((EVAL_B) * 2)
@@ -1361,7 +1361,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_B_t8_pb                ((EVAL_B) * 4 + 2)
 #define EVAL_B_t8_p8                ((EVAL_B) * 4 + 3)
 
-/* 0x0075 |   117
+/* 0x75 : 117
    EVAL_B_fail - state for EVAL */
 #define EVAL_B_fail                 (EVAL_B + 1)
 #define EVAL_B_fail_tb              ((EVAL_B_fail) * 2)
@@ -1371,7 +1371,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_B_fail_t8_pb           ((EVAL_B_fail) * 4 + 2)
 #define EVAL_B_fail_t8_p8           ((EVAL_B_fail) * 4 + 3)
 
-/* 0x0076 |   118
+/* 0x76 : 118
    EVAL_postponed_A - state for EVAL */
 #define EVAL_postponed_A            (EVAL_B_fail + 1)
 #define EVAL_postponed_A_tb         ((EVAL_postponed_A) * 2)
@@ -1381,7 +1381,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_postponed_A_t8_pb      ((EVAL_postponed_A) * 4 + 2)
 #define EVAL_postponed_A_t8_p8      ((EVAL_postponed_A) * 4 + 3)
 
-/* 0x0077 |   119
+/* 0x77 : 119
    EVAL_postponed_A_fail - state for EVAL */
 #define EVAL_postponed_A_fail       (EVAL_postponed_A + 1)
 #define EVAL_postponed_A_fail_tb    ((EVAL_postponed_A_fail) * 2)
@@ -1391,7 +1391,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_postponed_A_fail_t8_pb ((EVAL_postponed_A_fail) * 4 + 2)
 #define EVAL_postponed_A_fail_t8_p8 ((EVAL_postponed_A_fail) * 4 + 3)
 
-/* 0x0078 |   120
+/* 0x78 : 120
    EVAL_postponed_B - state for EVAL */
 #define EVAL_postponed_B            (EVAL_postponed_A_fail + 1)
 #define EVAL_postponed_B_tb         ((EVAL_postponed_B) * 2)
@@ -1401,7 +1401,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_postponed_B_t8_pb      ((EVAL_postponed_B) * 4 + 2)
 #define EVAL_postponed_B_t8_p8      ((EVAL_postponed_B) * 4 + 3)
 
-/* 0x0079 |   121
+/* 0x79 : 121
    EVAL_postponed_B_fail - state for EVAL */
 #define EVAL_postponed_B_fail       (EVAL_postponed_B + 1)
 #define EVAL_postponed_B_fail_tb    ((EVAL_postponed_B_fail) * 2)
@@ -1411,7 +1411,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define EVAL_postponed_B_fail_t8_pb ((EVAL_postponed_B_fail) * 4 + 2)
 #define EVAL_postponed_B_fail_t8_p8 ((EVAL_postponed_B_fail) * 4 + 3)
 
-/* 0x007a |   122
+/* 0x7a : 122
    CURLYX_end - state for CURLYX */
 #define CURLYX_end                  (EVAL_postponed_B_fail + 1)
 #define CURLYX_end_tb               ((CURLYX_end) * 2)
@@ -1421,7 +1421,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYX_end_t8_pb            ((CURLYX_end) * 4 + 2)
 #define CURLYX_end_t8_p8            ((CURLYX_end) * 4 + 3)
 
-/* 0x007b |   123
+/* 0x7b : 123
    CURLYX_end_fail - state for CURLYX */
 #define CURLYX_end_fail             (CURLYX_end + 1)
 #define CURLYX_end_fail_tb          ((CURLYX_end_fail) * 2)
@@ -1431,7 +1431,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYX_end_fail_t8_pb       ((CURLYX_end_fail) * 4 + 2)
 #define CURLYX_end_fail_t8_p8       ((CURLYX_end_fail) * 4 + 3)
 
-/* 0x007c |   124
+/* 0x7c : 124
    WHILEM_A_pre - state for WHILEM */
 #define WHILEM_A_pre                (CURLYX_end_fail + 1)
 #define WHILEM_A_pre_tb             ((WHILEM_A_pre) * 2)
@@ -1441,7 +1441,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_A_pre_t8_pb          ((WHILEM_A_pre) * 4 + 2)
 #define WHILEM_A_pre_t8_p8          ((WHILEM_A_pre) * 4 + 3)
 
-/* 0x007d |   125
+/* 0x7d : 125
    WHILEM_A_pre_fail - state for WHILEM */
 #define WHILEM_A_pre_fail           (WHILEM_A_pre + 1)
 #define WHILEM_A_pre_fail_tb        ((WHILEM_A_pre_fail) * 2)
@@ -1451,7 +1451,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_A_pre_fail_t8_pb     ((WHILEM_A_pre_fail) * 4 + 2)
 #define WHILEM_A_pre_fail_t8_p8     ((WHILEM_A_pre_fail) * 4 + 3)
 
-/* 0x007e |   126
+/* 0x7e : 126
    WHILEM_A_min - state for WHILEM */
 #define WHILEM_A_min                (WHILEM_A_pre_fail + 1)
 #define WHILEM_A_min_tb             ((WHILEM_A_min) * 2)
@@ -1461,7 +1461,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_A_min_t8_pb          ((WHILEM_A_min) * 4 + 2)
 #define WHILEM_A_min_t8_p8          ((WHILEM_A_min) * 4 + 3)
 
-/* 0x007f |   127
+/* 0x7f : 127
    WHILEM_A_min_fail - state for WHILEM */
 #define WHILEM_A_min_fail           (WHILEM_A_min + 1)
 #define WHILEM_A_min_fail_tb        ((WHILEM_A_min_fail) * 2)
@@ -1471,7 +1471,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_A_min_fail_t8_pb     ((WHILEM_A_min_fail) * 4 + 2)
 #define WHILEM_A_min_fail_t8_p8     ((WHILEM_A_min_fail) * 4 + 3)
 
-/* 0x0080 |   128
+/* 0x80 : 128
    WHILEM_A_max - state for WHILEM */
 #define WHILEM_A_max                (WHILEM_A_min_fail + 1)
 #define WHILEM_A_max_tb             ((WHILEM_A_max) * 2)
@@ -1481,7 +1481,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_A_max_t8_pb          ((WHILEM_A_max) * 4 + 2)
 #define WHILEM_A_max_t8_p8          ((WHILEM_A_max) * 4 + 3)
 
-/* 0x0081 |   129
+/* 0x81 : 129
    WHILEM_A_max_fail - state for WHILEM */
 #define WHILEM_A_max_fail           (WHILEM_A_max + 1)
 #define WHILEM_A_max_fail_tb        ((WHILEM_A_max_fail) * 2)
@@ -1491,7 +1491,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_A_max_fail_t8_pb     ((WHILEM_A_max_fail) * 4 + 2)
 #define WHILEM_A_max_fail_t8_p8     ((WHILEM_A_max_fail) * 4 + 3)
 
-/* 0x0082 |   130
+/* 0x82 : 130
    WHILEM_B_min - state for WHILEM */
 #define WHILEM_B_min                (WHILEM_A_max_fail + 1)
 #define WHILEM_B_min_tb             ((WHILEM_B_min) * 2)
@@ -1501,7 +1501,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_B_min_t8_pb          ((WHILEM_B_min) * 4 + 2)
 #define WHILEM_B_min_t8_p8          ((WHILEM_B_min) * 4 + 3)
 
-/* 0x0083 |   131
+/* 0x83 : 131
    WHILEM_B_min_fail - state for WHILEM */
 #define WHILEM_B_min_fail           (WHILEM_B_min + 1)
 #define WHILEM_B_min_fail_tb        ((WHILEM_B_min_fail) * 2)
@@ -1511,7 +1511,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_B_min_fail_t8_pb     ((WHILEM_B_min_fail) * 4 + 2)
 #define WHILEM_B_min_fail_t8_p8     ((WHILEM_B_min_fail) * 4 + 3)
 
-/* 0x0084 |   132
+/* 0x84 : 132
    WHILEM_B_max - state for WHILEM */
 #define WHILEM_B_max                (WHILEM_B_min_fail + 1)
 #define WHILEM_B_max_tb             ((WHILEM_B_max) * 2)
@@ -1521,7 +1521,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_B_max_t8_pb          ((WHILEM_B_max) * 4 + 2)
 #define WHILEM_B_max_t8_p8          ((WHILEM_B_max) * 4 + 3)
 
-/* 0x0085 |   133
+/* 0x85 : 133
    WHILEM_B_max_fail - state for WHILEM */
 #define WHILEM_B_max_fail           (WHILEM_B_max + 1)
 #define WHILEM_B_max_fail_tb        ((WHILEM_B_max_fail) * 2)
@@ -1531,7 +1531,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define WHILEM_B_max_fail_t8_pb     ((WHILEM_B_max_fail) * 4 + 2)
 #define WHILEM_B_max_fail_t8_p8     ((WHILEM_B_max_fail) * 4 + 3)
 
-/* 0x0086 |   134
+/* 0x86 : 134
    BRANCH_next - state for BRANCH */
 #define BRANCH_next                 (WHILEM_B_max_fail + 1)
 #define BRANCH_next_tb              ((BRANCH_next) * 2)
@@ -1541,7 +1541,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BRANCH_next_t8_pb           ((BRANCH_next) * 4 + 2)
 #define BRANCH_next_t8_p8           ((BRANCH_next) * 4 + 3)
 
-/* 0x0087 |   135
+/* 0x87 : 135
    BRANCH_next_fail - state for BRANCH */
 #define BRANCH_next_fail            (BRANCH_next + 1)
 #define BRANCH_next_fail_tb         ((BRANCH_next_fail) * 2)
@@ -1551,7 +1551,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define BRANCH_next_fail_t8_pb      ((BRANCH_next_fail) * 4 + 2)
 #define BRANCH_next_fail_t8_p8      ((BRANCH_next_fail) * 4 + 3)
 
-/* 0x0088 |   136
+/* 0x88 : 136
    CURLYM_A - state for CURLYM */
 #define CURLYM_A                    (BRANCH_next_fail + 1)
 #define CURLYM_A_tb                 ((CURLYM_A) * 2)
@@ -1561,7 +1561,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYM_A_t8_pb              ((CURLYM_A) * 4 + 2)
 #define CURLYM_A_t8_p8              ((CURLYM_A) * 4 + 3)
 
-/* 0x0089 |   137
+/* 0x89 : 137
    CURLYM_A_fail - state for CURLYM */
 #define CURLYM_A_fail               (CURLYM_A + 1)
 #define CURLYM_A_fail_tb            ((CURLYM_A_fail) * 2)
@@ -1571,7 +1571,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYM_A_fail_t8_pb         ((CURLYM_A_fail) * 4 + 2)
 #define CURLYM_A_fail_t8_p8         ((CURLYM_A_fail) * 4 + 3)
 
-/* 0x008a |   138
+/* 0x8a : 138
    CURLYM_B - state for CURLYM */
 #define CURLYM_B                    (CURLYM_A_fail + 1)
 #define CURLYM_B_tb                 ((CURLYM_B) * 2)
@@ -1581,7 +1581,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYM_B_t8_pb              ((CURLYM_B) * 4 + 2)
 #define CURLYM_B_t8_p8              ((CURLYM_B) * 4 + 3)
 
-/* 0x008b |   139
+/* 0x8b : 139
    CURLYM_B_fail - state for CURLYM */
 #define CURLYM_B_fail               (CURLYM_B + 1)
 #define CURLYM_B_fail_tb            ((CURLYM_B_fail) * 2)
@@ -1591,7 +1591,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLYM_B_fail_t8_pb         ((CURLYM_B_fail) * 4 + 2)
 #define CURLYM_B_fail_t8_p8         ((CURLYM_B_fail) * 4 + 3)
 
-/* 0x008c |   140
+/* 0x8c : 140
    IFMATCH_A - state for IFMATCH */
 #define IFMATCH_A                   (CURLYM_B_fail + 1)
 #define IFMATCH_A_tb                ((IFMATCH_A) * 2)
@@ -1601,7 +1601,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define IFMATCH_A_t8_pb             ((IFMATCH_A) * 4 + 2)
 #define IFMATCH_A_t8_p8             ((IFMATCH_A) * 4 + 3)
 
-/* 0x008d |   141
+/* 0x8d : 141
    IFMATCH_A_fail - state for IFMATCH */
 #define IFMATCH_A_fail              (IFMATCH_A + 1)
 #define IFMATCH_A_fail_tb           ((IFMATCH_A_fail) * 2)
@@ -1611,7 +1611,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define IFMATCH_A_fail_t8_pb        ((IFMATCH_A_fail) * 4 + 2)
 #define IFMATCH_A_fail_t8_p8        ((IFMATCH_A_fail) * 4 + 3)
 
-/* 0x008e |   142
+/* 0x8e : 142
    CURLY_B_min - state for CURLY */
 #define CURLY_B_min                 (IFMATCH_A_fail + 1)
 #define CURLY_B_min_tb              ((CURLY_B_min) * 2)
@@ -1621,7 +1621,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLY_B_min_t8_pb           ((CURLY_B_min) * 4 + 2)
 #define CURLY_B_min_t8_p8           ((CURLY_B_min) * 4 + 3)
 
-/* 0x008f |   143
+/* 0x8f : 143
    CURLY_B_min_fail - state for CURLY */
 #define CURLY_B_min_fail            (CURLY_B_min + 1)
 #define CURLY_B_min_fail_tb         ((CURLY_B_min_fail) * 2)
@@ -1631,7 +1631,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLY_B_min_fail_t8_pb      ((CURLY_B_min_fail) * 4 + 2)
 #define CURLY_B_min_fail_t8_p8      ((CURLY_B_min_fail) * 4 + 3)
 
-/* 0x0090 |   144
+/* 0x90 : 144
    CURLY_B_max - state for CURLY */
 #define CURLY_B_max                 (CURLY_B_min_fail + 1)
 #define CURLY_B_max_tb              ((CURLY_B_max) * 2)
@@ -1641,7 +1641,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLY_B_max_t8_pb           ((CURLY_B_max) * 4 + 2)
 #define CURLY_B_max_t8_p8           ((CURLY_B_max) * 4 + 3)
 
-/* 0x0091 |   145
+/* 0x91 : 145
    CURLY_B_max_fail - state for CURLY */
 #define CURLY_B_max_fail            (CURLY_B_max + 1)
 #define CURLY_B_max_fail_tb         ((CURLY_B_max_fail) * 2)
@@ -1651,7 +1651,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CURLY_B_max_fail_t8_pb      ((CURLY_B_max_fail) * 4 + 2)
 #define CURLY_B_max_fail_t8_p8      ((CURLY_B_max_fail) * 4 + 3)
 
-/* 0x0092 |   146
+/* 0x92 : 146
    COMMIT_next - state for COMMIT */
 #define COMMIT_next                 (CURLY_B_max_fail + 1)
 #define COMMIT_next_tb              ((COMMIT_next) * 2)
@@ -1661,7 +1661,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define COMMIT_next_t8_pb           ((COMMIT_next) * 4 + 2)
 #define COMMIT_next_t8_p8           ((COMMIT_next) * 4 + 3)
 
-/* 0x0093 |   147
+/* 0x93 : 147
    COMMIT_next_fail - state for COMMIT */
 #define COMMIT_next_fail            (COMMIT_next + 1)
 #define COMMIT_next_fail_tb         ((COMMIT_next_fail) * 2)
@@ -1671,7 +1671,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define COMMIT_next_fail_t8_pb      ((COMMIT_next_fail) * 4 + 2)
 #define COMMIT_next_fail_t8_p8      ((COMMIT_next_fail) * 4 + 3)
 
-/* 0x0094 |   148
+/* 0x94 : 148
    MARKPOINT_next - state for MARKPOINT */
 #define MARKPOINT_next              (COMMIT_next_fail + 1)
 #define MARKPOINT_next_tb           ((MARKPOINT_next) * 2)
@@ -1681,7 +1681,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define MARKPOINT_next_t8_pb        ((MARKPOINT_next) * 4 + 2)
 #define MARKPOINT_next_t8_p8        ((MARKPOINT_next) * 4 + 3)
 
-/* 0x0095 |   149
+/* 0x95 : 149
    MARKPOINT_next_fail - state for MARKPOINT */
 #define MARKPOINT_next_fail         (MARKPOINT_next + 1)
 #define MARKPOINT_next_fail_tb      ((MARKPOINT_next_fail) * 2)
@@ -1691,7 +1691,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define MARKPOINT_next_fail_t8_pb   ((MARKPOINT_next_fail) * 4 + 2)
 #define MARKPOINT_next_fail_t8_p8   ((MARKPOINT_next_fail) * 4 + 3)
 
-/* 0x0096 |   150
+/* 0x96 : 150
    SKIP_next - state for SKIP */
 #define SKIP_next                   (MARKPOINT_next_fail + 1)
 #define SKIP_next_tb                ((SKIP_next) * 2)
@@ -1701,7 +1701,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SKIP_next_t8_pb             ((SKIP_next) * 4 + 2)
 #define SKIP_next_t8_p8             ((SKIP_next) * 4 + 3)
 
-/* 0x0097 |   151
+/* 0x97 : 151
    SKIP_next_fail - state for SKIP */
 #define SKIP_next_fail              (SKIP_next + 1)
 #define SKIP_next_fail_tb           ((SKIP_next_fail) * 2)
@@ -1711,7 +1711,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define SKIP_next_fail_t8_pb        ((SKIP_next_fail) * 4 + 2)
 #define SKIP_next_fail_t8_p8        ((SKIP_next_fail) * 4 + 3)
 
-/* 0x0098 |   152
+/* 0x98 : 152
    CUTGROUP_next - state for CUTGROUP */
 #define CUTGROUP_next               (SKIP_next_fail + 1)
 #define CUTGROUP_next_tb            ((CUTGROUP_next) * 2)
@@ -1721,7 +1721,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CUTGROUP_next_t8_pb         ((CUTGROUP_next) * 4 + 2)
 #define CUTGROUP_next_t8_p8         ((CUTGROUP_next) * 4 + 3)
 
-/* 0x0099 |   153
+/* 0x99 : 153
    CUTGROUP_next_fail - state for CUTGROUP */
 #define CUTGROUP_next_fail          (CUTGROUP_next + 1)
 #define CUTGROUP_next_fail_tb       ((CUTGROUP_next_fail) * 2)
@@ -1731,7 +1731,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define CUTGROUP_next_fail_t8_pb    ((CUTGROUP_next_fail) * 4 + 2)
 #define CUTGROUP_next_fail_t8_p8    ((CUTGROUP_next_fail) * 4 + 3)
 
-/* 0x009a |   154
+/* 0x9a : 154
    KEEPS_next - state for KEEPS */
 #define KEEPS_next                  (CUTGROUP_next_fail + 1)
 #define KEEPS_next_tb               ((KEEPS_next) * 2)
@@ -1741,7 +1741,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define KEEPS_next_t8_pb            ((KEEPS_next) * 4 + 2)
 #define KEEPS_next_t8_p8            ((KEEPS_next) * 4 + 3)
 
-/* 0x009b |   155
+/* 0x9b : 155
    KEEPS_next_fail - state for KEEPS */
 #define KEEPS_next_fail             (KEEPS_next + 1)
 #define KEEPS_next_fail_tb          ((KEEPS_next_fail) * 2)
@@ -1751,7 +1751,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define KEEPS_next_fail_t8_pb       ((KEEPS_next_fail) * 4 + 2)
 #define KEEPS_next_fail_t8_p8       ((KEEPS_next_fail) * 4 + 3)
 
-/* 0x009c |   156
+/* 0x9c : 156
    REF_next - state for REF */
 #define REF_next                    (KEEPS_next_fail + 1)
 #define REF_next_tb                 ((REF_next) * 2)
@@ -1761,7 +1761,7 @@ typedef struct regnode                           tregnode_WHILEM;
 #define REF_next_t8_pb              ((REF_next) * 4 + 2)
 #define REF_next_t8_p8              ((REF_next) * 4 + 3)
 
-/* 0x009d |   157
+/* 0x9d : 157
    REF_next_fail - state for REF */
 #define REF_next_fail               (REF_next + 1)
 #define REF_next_fail_tb            ((REF_next_fail) * 2)

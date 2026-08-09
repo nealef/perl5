@@ -62,7 +62,7 @@ my %OSTYPES = qw(
   os390       EBCDIC
   os400       EBCDIC
   posix-bc    EBCDIC
-  vmesa       EBCDIC
+  zvm         EBCDIC
 
   MacOS       MacOS
   VMS         VMS

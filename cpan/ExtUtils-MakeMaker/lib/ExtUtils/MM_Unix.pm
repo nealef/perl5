@@ -34,6 +34,7 @@ BEGIN {
     $Is{Interix} = $^O eq 'interix';
     $Is{SunOS4}  = $^O eq 'sunos';
     $Is{Solaris} = $^O eq 'solaris';
+    $Is{zVM}     = $^O eq 'zvm';
     $Is{SunOS}   = $Is{SunOS4} || $Is{Solaris};
     $Is{BSD}     = ($^O =~ /^(?:free|midnight|net|open)bsd$/ or
                    grep( $^O eq $_, qw(bsdos interix dragonfly) )
@@ -4062,6 +4063,14 @@ Defines the suffix rules to compile XS files to C.
 sub xs_c {
     my($self) = shift;
     return '' unless $self->needs_linking();
+    return $Is{zVM} ? 
+    '
+.xs.c:
+	$(XSUBPPRUN) $(XSPROTOARG) $(XSUBPPARGS) $(XSUBPP_EXTRA_ARGS) $*.xs > $*.xsc
+	$(MV) $*.xsc $*.c
+	chtag -t -c iso8859-1 $*.c
+'
+    :
     '
 .xs.c:
 	$(XSUBPPRUN) $(XSPROTOARG) $(XSUBPPARGS) $(XSUBPP_EXTRA_ARGS) $*.xs > $*.xsc

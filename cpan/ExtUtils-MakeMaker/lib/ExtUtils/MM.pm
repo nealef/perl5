@@ -72,6 +72,7 @@ $Is{QNX}    = $^O eq 'qnx';
 $Is{AIX}    = $^O eq 'aix';
 $Is{Darwin} = $^O eq 'darwin';
 $Is{OS390}  = $^O eq 'os390';
+$Is{ZVM}    = $^O eq 'zvm';
 
 $Is{Unix}   = !grep { $_ } values %Is;
 

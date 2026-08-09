@@ -131,9 +131,13 @@ true)
                    linklibperl='libperl.x'
                    ;;
             *)     shrpldflags='-Wl,XPLINK,dll'
-	           linklibperl='libperl.x'
 	           ;;
             esac
+	        linklibperl='libperl.x'
+            ;;
+    zvm*)
+            shrpldflags='-Wl,XPLINK,dll'
+            linklibperl="`pwd`/libperl.x"
             ;;
 	esac
 	case "$ldlibpthname" in
@@ -446,7 +450,7 @@ ARCHOBJS = $archobjs
 .SUFFIXES: .c \$(OBJ_EXT) .i .s .c.depends
 
 # grrr
-SHELL = $sh
+SHELL = ${SHELL}
 
 # how to tr(anslate) newlines
 TRNL = '$trnl'
@@ -482,9 +486,9 @@ esac
 ## In the following dollars and backticks do not need the extra backslash.
 $spitshell >>$Makefile <<'!NO!SUBS!'
 
-CCCMD    = sh $(shellflags) cflags "optimize='$(OPTIMIZE)'" $@
+CCCMD    = $(SHELL) $(shellflags) cflags "optimize='$(OPTIMIZE)'" $@
 
-CCCMDSRC = sh $(shellflags) cflags "optimize='$(OPTIMIZE)'" $<
+CCCMDSRC = $(SHELL) $(shellflags) cflags "optimize='$(OPTIMIZE)'" $<
 
 CONFIGPM_FROM_CONFIG_SH = lib/Config.pm lib/Config_heavy.pl
 CONFIGPM = $(CONFIGPM_FROM_CONFIG_SH) lib/Config_git.pl
@@ -508,7 +512,7 @@ private = preplibrary \$(CONFIGPM) \$(CONFIGPOD) git_version.h lib/buildcustomiz
 
 # Files to be built with variable substitution before miniperl
 # is available.
-sh = $SH
+sh = ${SHELL}
 
 shextract = $shextract
 !GROK!THIS!
@@ -689,7 +693,7 @@ all: $(FIRSTMAKEFILE) $(MINIPERL_EXE) $(generated_pods) $(private) $(unidatafile
 
 $(MANIFEST_SRT):	MANIFEST $(PERL_EXE)
 	@$(RUN_PERL) Porting/manisort -q || (echo "WARNING: re-sorting MANIFEST"; \
-	    $(RUN_PERL) Porting/manisort -q -o MANIFEST; sh -c true)
+        $(RUN_PERL) Porting/manisort -q -o MANIFEST; $(SHELL) -c true)
 	@touch $(MANIFEST_SRT)
 
 .PHONY: all utilities
@@ -738,7 +742,7 @@ $spitshell >>$Makefile <<'!NO!SUBS!'
 # Apparently some makes require an action for the FORCE target.
 .PHONY: FORCE
 FORCE:
-	@sh -c true
+	@$(SHELL) -c true
 !NO!SUBS!
 
 for file in $mini_special; do
@@ -997,7 +1001,7 @@ lib/buildcustomize.pl: $& $(miniperl_objs) write_buildcustomize.pl
 	-@rm -f miniperl.xok
 	$(CC) $(CLDFLAGS) -o $(MINIPERL_EXE) \
 	    $(miniperl_objs) $(libs)
-#	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+    #	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || $(SHELL) -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
 	$(MINIPERL) -f write_buildcustomize.pl
 !NO!SUBS!
 		;;
@@ -1019,7 +1023,7 @@ lib/buildcustomize.pl: $& $(miniperl_objs) write_buildcustomize.pl
 	-@rm -f miniperl.xok
 	$(CC) $(CLDFLAGS) $(NAMESPACEFLAGS) -o $(MINIPERL_EXE) \
 	    $(miniperl_objs) $(libs)
-	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || $(SHELL) -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
 	$(MINIPERL) -f write_buildcustomize.pl
 !NO!SUBS!
 		;;
@@ -1030,7 +1034,7 @@ lib/buildcustomize.pl: \$& \$(miniperl_dep) write_buildcustomize.pl
 	-@rm -f miniperl.xok
 	-@rm \$(MINIPERL_EXE)
 	\$(LNS) \$(HOST_PERL) \$(MINIPERL_EXE)
-	\$(LDLIBPTH) ./miniperl\$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+	\$(LDLIBPTH) ./miniperl\$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || $(SHELL) -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
 	\$(MINIPERL) -f write_buildcustomize.pl 'osname' "$osname"
 !GROK!THIS!
 		else
@@ -1039,7 +1043,7 @@ lib/buildcustomize.pl: $& $(miniperl_dep) write_buildcustomize.pl
 	-@rm -f miniperl.xok
 	$(CC) $(CLDFLAGS) -o $(MINIPERL_EXE) \
 	    $(miniperl_objs) $(libs)
-	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || sh -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
+	$(LDLIBPTH) ./miniperl$(HOST_EXE_EXT) -w -Ilib -Idist/Exporter/lib -MExporter -e '<?>' || $(SHELL) -c 'echo >&2 Failed to build miniperl.  Please run make minitest; exit 1'
 	$(MINIPERL) -f write_buildcustomize.pl
 !NO!SUBS!
 		fi
@@ -1253,10 +1257,10 @@ regen_perly regen-perly:
 # appear out-of-date after a patch is applied or a new distribution is
 # made.
 perly.c: perly.y
-	-@sh -c true
+	-@$(SHELL) -c true
 
 perly.h: perly.y
-	-@sh -c true
+	-@$(SHELL) -c true
 
 SYM  = globvar.sym perlio.sym
 
@@ -1301,7 +1305,7 @@ regen_all regen-all: regen regen_meta
 
 manisort:	FORCE
 	@perl Porting/manisort -q || (echo "WARNING: re-sorting MANIFEST"; \
-		perl Porting/manisort -q -o MANIFEST; sh -c true)
+        perl Porting/manisort -q -o MANIFEST; $(SHELL) -c true)
 
 manicheck:	FORCE
 	perl Porting/manicheck
@@ -1386,7 +1390,7 @@ _cleaner1:
 	$(MINIPERL) make_ext.pl --target=$(CLEAN) $$x MAKE="$(MAKE)" ; \
 	done ; \
 	else \
-	sh $(CLEAN).sh ; \
+    $(SHELL) $(CLEAN).sh ; \
 	fi
 	rm -f realclean.sh veryclean.sh
 	-rm -f `grep -v ^# mkppport.lst | grep . | sed -e 's/$$/\/ppport.h/'`
@@ -1518,10 +1522,10 @@ $spitshell >>$Makefile <<'!NO!SUBS!'
 
 .PHONY: depend
 depend: makedepend $(DTRACE_H) $(generated_headers)
-	sh ./makedepend MAKE="$(MAKE)" cflags
+	$(SHELL) ./makedepend MAKE="$(MAKE)" cflags
 
 .c.c.depends:
-	sh ./makedepend_file $< $@ cflags
+	$(SHELL) ./makedepend_file $< $@ cflags
 
 .PHONY: test check test_prep test_prep_nodll test_prep_pre \
 	test_prep_reonly test_tty test-tty test_notty test-notty \

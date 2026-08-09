@@ -41,6 +41,10 @@
 extern "C" {
 #endif
 
+#ifndef NULL
+# define NULL ((void *)0)
+#endif
+
 #define ZLIB_VERSION "1.3.2"
 #define ZLIB_VERNUM 0x1320
 #define ZLIB_VER_MAJOR 1

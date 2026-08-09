@@ -470,6 +470,7 @@ BEGIN
     [ 'beos'    => 16,   'BeOS'                         ],
     [ ''        => 17,   'Tandem/NSK'                   ],
     [ ''        => 18,   'THEOS'                        ],
+    [ ''        => 19,   'ZVM'                          ],
     [ ''        => 255,  'Unknown OS'                   ],
   );
 

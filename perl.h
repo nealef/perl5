@@ -8424,7 +8424,7 @@ Allows one ending \0
 
 #define IS_SAFE_PATHNAME(p, len, op_name) IS_SAFE_SYSCALL((p), (len), "pathname", (op_name))
 
-#if defined(OEMVS) || defined(__amigaos4__)
+#if defined(OEMVS) || defined(__amigaos4__) || defined(OEZVM)
 #define NO_ENV_ARRAY_IN_MAIN
 #endif
 
@@ -9262,6 +9262,10 @@ END_EXTERN_C
 #  define PERL_STACK_REALIGN __attribute__((force_align_arg_pointer))
 #else
 #  define PERL_STACK_REALIGN
+#endif
+
+#ifdef OEZVM
+# include "override.h"
 #endif
 
 /*

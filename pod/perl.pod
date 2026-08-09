@@ -313,6 +313,7 @@ aux h2ph h2xs perlbug pl2pm pod2html pod2man splain xsubpp
     perlvms             Perl notes for VMS
     perlvos             Perl notes for Stratus VOS
     perlwin32           Perl notes for Windows
+    perlzvm             Perl notes for z/VM
 
 =for buildtoc flag -r
 

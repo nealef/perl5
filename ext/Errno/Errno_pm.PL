@@ -122,8 +122,8 @@ sub get_files {
     # VMS keeps its include files in system libraries
     if ($^O eq 'VMS') {
 	push(@file, 'Sys$Library:DECC$RTLDEF.TLB');
-    } elsif ($^O eq 'os390') {
-	# OS/390 C compiler doesn't generate #file or #line directives
+    } elsif ($^O eq 'os390' || $^O eq 'zvm') {
+	    # OS/390 & z/VM C compilers don't generate #file or #line directives
         # and it does not tag the header as 1047 (EBCDIC), so make a local
         # copy and tag it
         my $cp = `cp /usr/include/errno.h ./errno.h`;

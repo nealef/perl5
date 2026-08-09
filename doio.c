@@ -222,10 +222,11 @@ Perl_PerlLIO_dup2_cloexec(pTHX_ int oldfd, int newfd)
 #endif
 }
 
-#if defined(OEMVS)
+#if defined(OEMVS) || defined(OEZVM)
   #if (__CHARSET_LIB == 1)
 #   include <stdio.h>
 #   include <stdlib.h>
+#   include <sys/stat.h>
 
     static int setccsid(int fd, int ccsid) 
     {
@@ -301,7 +302,7 @@ Perl_PerlLIO_open3_cloexec(pTHX_ const char *file, int flag, int perm)
 #endif
 }
 
-#if defined(OEMVS)
+#if defined(OEMVS) || defined(OEZVM)
   #if (__CHARSET_LIB == 1)
     #define TEMP_CCSID 819
   #endif

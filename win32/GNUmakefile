@@ -1644,6 +1644,7 @@ utils: $(HAVEMINIPERL) ..\utils\Makefile
 	copy ..\README.tw       ..\pod\perltw.pod
 	copy ..\README.vos      ..\pod\perlvos.pod
 	copy ..\README.win32    ..\pod\perlwin32.pod
+	copy ..\README.zvm      ..\pod\perlzvm.pod
 	copy ..\pod\perldelta.pod ..\pod\perl5422delta.pod
 	$(MINIPERL) -I..\lib $(PL2BAT) $(UTILS)
 	$(MINIPERL) -I..\lib ..\autodoc.pl -c "win32\$(CONFIG_H)" ..
@@ -1752,7 +1753,7 @@ distclean: realclean
 	    perlos390.pod perlos400.pod perlplan9.pod perlqnx.pod \
 	    perlriscos.pod perlsolaris.pod perlsynology.pod perltoc.pod \
 	    perltru64.pod perltw.pod perluniprops.pod perlvos.pod \
-	    perlwin32.pod
+	    perlwin32.pod perlzvm.pod
 	-cd ..\utils && del /f h2ph splain perlbug pl2pm h2xs \
 	    perldoc perlivp libnetcfg enc2xs encguess piconv cpan *.bat \
 	    xsubpp pod2html instmodsh json_pp prove ptar ptardiff ptargrep shasum corelist zipdetails

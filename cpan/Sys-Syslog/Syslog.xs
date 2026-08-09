@@ -24,7 +24,7 @@
 #  undef HAVE_SYSLOG
 #  include "fallback/syslog.h"
 #else
-#  if defined(I_SYSLOG) || PATCHLEVEL < 6
+#  if defined(I_SYSLOG) || PATCHLEVEL < 6 || defined(OEMVS) || defined(OEZVM)
 #    include <syslog.h>
 #  else
 #    undef HAVE_SYSLOG

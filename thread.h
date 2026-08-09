@@ -32,7 +32,7 @@
 #    define PERL_SET_CONTEXT(t)	Perl_set_context((void*)t)
 
 #    define PTHREAD_GETSPECIFIC_INT
-#    ifdef OEMVS
+#    if defined(OEMVS) || defined(OEZVM)
 #      define pthread_addr_t void *
 #      define pthread_create(t,a,s,d)        pthread_create(t,&(a),s,d)
 #      define pthread_keycreate              pthread_key_create
@@ -54,7 +54,7 @@
 #      define pthread_mutexattr_init(a) pthread_mutexattr_create(a)
 #      define pthread_mutexattr_settype(a,t) pthread_mutexattr_setkind_np(a,t)
 #    endif
-#    if defined(OEMVS)
+#    if defined(OEMVS) || defined(OEZVM)
 #      define PTHREAD_ATTR_SETDETACHSTATE(a,s) pthread_attr_setdetachstate(a,&(s))
 #      define YIELD pthread_yield(NULL)
 #    endif

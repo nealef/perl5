@@ -314,7 +314,7 @@ sub _decode_encodings { # For use only by other functions in this file!
             push @enc, "$_.65001"; # Windows UTF-8
 	}
     }
-    if ($^O eq 'os390') {
+    if ($^O eq 'os390' || $^O eq 'zvm') {
 	push @enc, qw(IBM-037 IBM-819 IBM-1047);
     }
     push @enc, "UTF-8";

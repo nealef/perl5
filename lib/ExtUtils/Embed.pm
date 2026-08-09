@@ -215,6 +215,8 @@ sub ldopts {
     }
     elsif ($^O eq 'os390' && $Config{usedl}) {
 	# Nothing for OS/390 (z/OS) dynamic.
+    } elsif ($^O eq 'zvm' && $Config{usedl}) {
+	# Nothing for z/VM dynamic.
     } else {
 	$libperl = (grep(/^-l\w*perl\w*$/, @link_args))[0]
 	    || ($Config{libperl} =~ /^lib(\w+)(\Q$lib_ext\E|\.\Q$Config{dlext}\E)$/

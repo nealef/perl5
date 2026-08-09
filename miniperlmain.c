@@ -38,7 +38,7 @@
  * included in the tarball while the latter isn't).
  */
 
-#ifdef OEMVS
+#if defined(OEMVS) || defined(OEZVM)
 #ifdef MYMALLOC
 /* sbrk is limited to first heap segment so make it big */
 #pragma runopts(HEAP(8M,500K,ANYWHERE,KEEP,8K,4K) STACK(,,ANY,) ALL31(ON))
@@ -72,6 +72,17 @@ main(int argc, char **argv, char **env)
     int exitstatus, i;
 #ifndef NO_ENV_ARRAY_IN_MAIN
     PERL_UNUSED_ARG(env);
+#endif
+#ifdef OEZVM
+    /*
+     * Temporary - I'm building on z/OS under z/VM on a zPDT
+     */
+    struct sigaction sa;
+
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = SIG_IGN;
+    sigaction(SIGXCPU, &sa, NULL);
 #endif
 
     /* if user wants control of gprof profiling off by default */

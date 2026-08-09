@@ -2353,7 +2353,7 @@ Perl_new_warnings_bitfield(pTHX_ char *buffer, const char *const bits,
  * 'current' is non-null, with up to three sizes that are added together.
  * It handles integer overflow.
  */
-#  ifndef HAS_SETENV
+#  if !defined(HAS_SETENV) || !defined(HAS_UNSETENV)
 static char *
 S_env_alloc(void *current, Size_t l1, Size_t l2, Size_t l3, Size_t size)
 {
@@ -2464,7 +2464,7 @@ Perl_unlnk(pTHX_ const char *f)	/* unlink all versions of a file */
 }
 #endif
 
-#if defined(OEMVS)
+#if defined(OEMVS) || defined(OEZVM)
   #if (__CHARSET_LIB == 1)
   static int chgfdccsid(int fd, unsigned short ccsid) 
   {
@@ -2491,7 +2491,7 @@ Implementing function on some systems for PerlProc_popen_list()
 PerlIO *
 Perl_my_popen_list(pTHX_ const char *mode, int n, SV **args)
 {
-#if (!defined(DOSISH) || defined(HAS_FORK)) && !defined(OS2) && !defined(VMS) && !defined(__LIBCATAMOUNT__) && !defined(__amigaos4__)
+#if (!defined(DOSISH) || defined(HAS_FORK)) && !defined(OS2) && !defined(VMS) && !defined(__LIBCATAMOUNT__) && !defined(__amigaos4__) && !defined(OEZVM)
     int p[2];
     I32 This, that;
     Pid_t pid;
@@ -2635,6 +2635,9 @@ Perl_my_popen_list(pTHX_ const char *mode, int n, SV **args)
     return my_syspopen4(aTHX_ NULL, mode, n, args);
 #  elif defined(WIN32)
     return win32_popenlist(mode, n, args);
+#  elif defined(OEZVM)
+    PerlIO *zvm_popenlist(pTHX_ const char *mode, int cnt, SV** args);
+    return zvm_popenlist(aTHX_ mode, n, args);
 #  else
     croak("List form of piped open not implemented");
     return (PerlIO *) NULL;
@@ -2643,7 +2646,7 @@ Perl_my_popen_list(pTHX_ const char *mode, int n, SV **args)
 }
 
     /* VMS' my_popen() is in VMS.c, same with OS/2 and AmigaOS 4. */
-#if (!defined(DOSISH) || defined(HAS_FORK)) && !defined(VMS) && !defined(__LIBCATAMOUNT__) && !defined(__amigaos4__)
+#if (!defined(DOSISH) || defined(HAS_FORK)) && !defined(VMS) && !defined(__LIBCATAMOUNT__) && !defined(__amigaos4__) && !defined(OEZVM)
 
 /*
 =for apidoc_section $io
@@ -2896,7 +2899,11 @@ Perl_my_fork(void)
 #else
     /* atfork_lock() and atfork_unlock() are installed as pthread_atfork()
      * handlers elsewhere in the code */
+#ifndef OEZVM
     pid = fork();
+#else
+    pid = vfork();
+#endif
 #endif
     return pid;
 #elif defined(__amigaos4__)

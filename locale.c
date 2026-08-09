@@ -6333,7 +6333,7 @@ S_external_call_langinfo(pTHX_ const nl_item item,
 
 
       default:  /* The other possible items are all in LC_TIME. */
-#  ifdef USE_LOCALE_TIME
+#  if defined(USE_LOCALE_TIME) && defined(LC_TIME_INDEX)
         cat_index = LC_TIME_INDEX_;
 #  endif
         break;

@@ -4038,6 +4038,10 @@ S_minus_v(pTHX)
         PerlIO_printf(PIO_stdout,
                       "MVS (OS390) port by Mortice Kern Systems, 1997-1999\n");
 #endif
+#ifdef OEZVM
+        PerlIO_printf(PIO_stdout,
+                      "z/VM port by Mortice Kern Systems, 1997-1999 and Neale Ferguson 2026\n");
+#endif
 #ifdef __VOS__
         PerlIO_printf(PIO_stdout,
                       "Stratus OpenVOS port by Paul.Green@stratus.com, 1997-2013\n");

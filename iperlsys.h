@@ -770,7 +770,7 @@ struct IPerlLIOInfo
 #    define PerlLIO_lstat(name, buf)    PerlLIO_stat((name), (buf))
 #  endif
 #  define PerlLIO_mktemp(file)          mktemp((file))
-#  if defined(OEMVS)
+#  if defined(OEMVS) || defined(OEZVM)
 #    if (__CHARSET_LIB == 1)
     int asciiopen(const char* path, int oflag);
     int asciiopen3(const char* path, int oflag, int perm);

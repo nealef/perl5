@@ -25,7 +25,7 @@ struct _FILE;
 #  define FILE struct _FILE
 #endif
 
-#if !defined(OEMVS)
+#if !defined(OEMVS) && !defined(OEZVM)
 
 #  define _CANNOT "CANNOT"
 

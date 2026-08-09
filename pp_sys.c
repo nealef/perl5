@@ -2844,7 +2844,7 @@ PP_wrapped(pp_accept, 2, 0)
 
     nstio = GvIOn(ngv);
     fd = PerlSock_accept_cloexec(PerlIO_fileno(IoIFP(gstio)), (struct sockaddr *) namebuf, &len);
-#if defined(OEMVS)
+#if defined(OEMVS) || defined(OEZVM)
     if (len == 0) {
         /* Some platforms indicate zero length when an AF_UNIX client is
          * not bound. Simulate a non-zero-length sockaddr structure in

@@ -4639,7 +4639,7 @@ PP_wrapped(pp_system, 0, 1)
         TAINT_PROPER("system");
     }
     PERL_FLUSHALL_FOR_CHILD;
-#if (defined(HAS_FORK) || defined(__amigaos4__)) && !defined(VMS) && !defined(OS2)
+#if (defined(HAS_FORK) || defined(__amigaos4__)) && !defined(VMS) && !defined(OS2) && !defined(OEZVM)
     {
 #ifdef __amigaos4__
         struct UserData userdata;
@@ -4766,14 +4766,14 @@ PP_wrapped(pp_system, 0, 1)
     result = 0;
     if (PL_op->op_flags & OPf_STACKED) {
         SV * const really = *++MARK;
-#  if defined(WIN32) || defined(OS2) || defined(__VMS)
+#  if defined(WIN32) || defined(OS2) || defined(__VMS) || defined(OEZVM)
         value = (I32)do_aspawn(really, MARK, SP);
 #  else
         value = (I32)do_aspawn(really, (void **)MARK, (void **)SP);
 #  endif
     }
     else if (SP - MARK != 1) {
-#  if defined(WIN32) || defined(OS2) || defined(__VMS)
+#  if defined(WIN32) || defined(OS2) || defined(__VMS) || defined(OEZVM)
         value = (I32)do_aspawn(NULL, MARK, SP);
 #  else
         value = (I32)do_aspawn(NULL, (void **)MARK, (void **)SP);

@@ -2262,7 +2262,7 @@
 #   define thread_locale_init()                 Perl_thread_locale_init(aTHX)
 #   define thread_locale_term()                 Perl_thread_locale_term(aTHX)
 # endif
-# if defined(VMS) || defined(WIN32)
+# if defined(VMS) || defined(WIN32) || defined(OEZVM)
 #   define do_aspawn(a,b,c)                     Perl_do_aspawn(aTHX_ a,b,c)
 #   define do_spawn(a)                          Perl_do_spawn(aTHX_ a)
 #   define do_spawn_nowait(a)                   Perl_do_spawn_nowait(aTHX_ a)

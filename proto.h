@@ -11017,7 +11017,7 @@ Perl_thread_locale_term(pTHX);
 # define PERL_ARGS_ASSERT_THREAD_LOCALE_TERM
 
 #endif
-#if defined(VMS) || defined(WIN32)
+#if defined(VMS) || defined(WIN32) || defined(OEZVM)
 PERL_CALLCONV int
 Perl_do_aspawn(pTHX_ SV *really, SV **mark, SV **sp);
 # define PERL_ARGS_ASSERT_DO_ASPAWN             \

@@ -165,6 +165,10 @@ I32 my_chsize(int fd, Off_t length);
 
 #endif /* no flock() */
 
+#ifdef I_SPAWN
+# include <spawn.h>
+#endif
+
 #define ZBTLEN 10
 static const char zero_but_true[ZBTLEN + 1] = "0 but true";
 
@@ -4790,6 +4794,198 @@ PP_wrapped(pp_system, 0, 1)
 #endif /* !FORK or VMS or OS/2 */
 #endif
     RETURN;
+}
+
+/*
+ * Helper function for pp_spawn() to turn a PerlIO* stream into a fully functional Perl handle SV*
+ */
+static inline SV *
+create_valid_handle(pTHX_ PerlIO *pio, const char mode)
+{
+    if (!pio)
+        return &PL_sv_undef;
+
+    /*
+     * 1. Create anonymous Typeglob symbol
+     */
+    GV *gv = newGVgen("IO::Handle");
+    IO *io = GvIOp(gv) = newIO();
+
+    /*
+     * 2. Attach PerlIO stream pointers
+     */
+    if (mode == 'r') {
+        IoIFP(io) = pio;
+        IoOFP(io) = pio;
+    } else {
+        IoIFP(io) = pio;
+        IoOFP(io) = pio;
+    }
+
+    /*
+     * 3. Mark filehandle as open and set type
+     */
+    IoTYPE(io) = IoTYPE_PIPE;
+
+    /*
+     * 4. Attach standard Perl IO layer magic to symbol (FIXES "Bad filehandle: _GEN_0")
+     */
+    sv_magic((SV*)io, (SV*)gv, PERL_MAGIC_ext, NULL, 0);
+
+    /*
+     * 5. Return reference to the blessed GLOB (*HANDLE)
+     */
+    return sv_2mortal(newRV_noinc((SV*)gv));
+}
+
+PP(pp_spawn)
+{
+#if defined(HAS_POSIX_SPAWN) || defined(HAS_SPAWN)
+    dTARGET; dSP; dMARK; dORIGMARK;
+    pid_t pid;
+    int status;
+    
+    /*
+     * 1. Calculate number of items on the stack
+     */
+    int items = SP - MARK;
+    if (items < 1) {
+        DIE(aTHX_ "No command provided to spawn");
+    }
+
+    /*
+     * 2. Build argv array for [posix_]spawn from remaining stack elements
+     */
+    const char **argv = NULL;
+    extern char **environ;
+
+    Newxz(argv, items + 1, const char*);
+    for (int i = 0; i < items; i++) {
+        argv[i] = (char *)SvPV_nolen(MARK[i + 1]);
+    }
+    argv[items] = NULL;
+
+    /*
+     * 3. Create pipes
+     */
+    int stdin_pipe[2], stdout_pipe[2], stderr_pipe[2];
+    if (pipe(stdin_pipe) < 0 || pipe(stdout_pipe) < 0 || pipe(stderr_pipe) < 0) {
+        Safefree(argv);
+        SETERRNO(errno, 0);
+        SP = ORIGMARK;
+        PUSHi(-1);
+        RETURN;
+    }
+
+    /*
+     * 4. Spawn the new process
+     */
+#ifdef HAS_SPAWN
+    struct inheritance in;
+    int fdMap[3];
+    char **newEnv, **oldEnv;
+
+    memset(&in, 0, sizeof(in));
+    in.flags = SPAWN_SETGROUP | SPAWN_SETSIGDEF;
+    in.pgroup = SPAWN_NEWPGROUP;                
+    fdMap[0] = stdin_pipe[0];
+    fdMap[1] = stdout_pipe[1];
+    fdMap[2] = stderr_pipe[1];
+
+    pid = spawnp(argv[0], 3, fdMap, &in, argv, (const char **)environ);
+#else
+    posix_spawn_file_actions_t actions;
+    posix_spawn_file_actions_init(&actions);
+
+    posix_spawn_file_actions_adddup2(&actions, stdin_pipe[0], STDIN_FILENO);
+    posix_spawn_file_actions_adddup2(&actions, stdout_pipe[1], STDOUT_FILENO);
+    posix_spawn_file_actions_adddup2(&actions, stderr_pipe[1], STDERR_FILENO);
+
+    posix_spawn_file_actions_addclose(&actions, stdin_pipe[0]);
+    posix_spawn_file_actions_addclose(&actions, stdin_pipe[1]);
+    posix_spawn_file_actions_addclose(&actions, stdout_pipe[0]);
+    posix_spawn_file_actions_addclose(&actions, stdout_pipe[1]);
+    posix_spawn_file_actions_addclose(&actions, stderr_pipe[0]);
+    posix_spawn_file_actions_addclose(&actions, stderr_pipe[1]);
+
+    status = posix_spawnp(&pid, argv[0], &actions, NULL, argv, environ);
+
+    posix_spawn_file_actions_destroy(&actions);
+#endif
+
+    Safefree(argv);
+
+    close(stdin_pipe[0]);
+    close(stdout_pipe[1]);
+    close(stderr_pipe[1]);
+
+#ifdef HAS_SPAWN
+    if (pid == -1) {
+        status = errno;
+#else
+    if (status != 0) {
+#endif
+        close(stdin_pipe[1]);
+        close(stdout_pipe[0]);
+        close(stderr_pipe[0]);
+        SETERRNO(status, 0);
+        SP = ORIGMARK;
+        PUSHi(-1);
+        RETURN;
+    }
+
+    /*
+     * 5. Convert descriptors into Perl IO handles and assign to the passed SV variables
+     */
+    PerlIO *pio_in  = PerlIO_fdopen(stdin_pipe[1], "w");
+    PerlIO *pio_out = PerlIO_fdopen(stdout_pipe[0], "r");
+    PerlIO *pio_err = PerlIO_fdopen(stderr_pipe[0], "r");
+
+	if (!pio_in || !pio_out || !pio_err) {
+        if (pio_in) 
+            PerlIO_close(pio_in);  
+        else
+            close(stdin_pipe[1]);
+        if (pio_out)
+            PerlIO_close(pio_out);
+        else
+            close(stdout_pipe[0]);
+        if (pio_err)
+            PerlIO_close(pio_err);
+        else
+            close(stderr_pipe[0]);
+        
+        kill(pid, SIGTERM);
+        int dummy_status;
+        waitpid(pid, &dummy_status, 0);
+
+        SETERRNO(errno ? errno : ENOMEM, 0);
+        SP = ORIGMARK;
+        RETPUSHUNDEF;
+    }
+
+    /*
+     * 6. Create handles to return to caller
+     */
+    SV *sv_in_ref  = create_valid_handle(aTHX_ pio_in,  'w');
+    SV *sv_out_ref = create_valid_handle(aTHX_ pio_out, 'r');
+    SV *sv_err_ref = create_valid_handle(aTHX_ pio_err, 'r');
+    
+    /* 
+     * 7. Reset stack and return ($pid, $sv_in, $sv_out, $sv_err)
+     */
+    SP = ORIGMARK;
+    EXTEND(SP, 4);
+    PUSHs(sv_2mortal(newSViv((IV)pid)));
+    PUSHs(sv_in_ref);
+    PUSHs(sv_out_ref);
+    PUSHs(sv_err_ref);
+    
+    RETURN;
+#else
+    /* Fallback if system lacks posix_spawn */
+    DIE(aTHX_ "[posix_]spawn() is not supported on this architecture");
+#endif
 }
 
 PP_wrapped(pp_exec, 0, 1)

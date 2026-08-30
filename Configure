@@ -717,6 +717,7 @@ d_pipe2=''
 d_pipe=''
 d_poll=''
 d_portable=''
+d_posix_spawn=''
 d_prctl=''
 d_prctl_set_name=''
 d_procselfexe=''
@@ -849,6 +850,7 @@ sockethdr=''
 socketlib=''
 d_socklen_t=''
 d_socks5_init=''
+d_spawn=''
 d_sqrtl=''
 d_srand48_r=''
 srand48_r_proto=''
@@ -1051,6 +1053,7 @@ i_pwd=''
 i_quadmath=''
 i_shadow=''
 i_socks=''
+i_spawn=''
 i_stdbool=''
 i_stdint=''
 i_stdlib=''
@@ -13352,6 +13355,14 @@ eval $setvar
 set fork d_fork
 eval $inlibc
 
+: see if spawn exists
+set spawn d_spawn
+eval $inlibc
+
+: see if posix_spawn exists
+set posix_spawn d_posix_spawn
+eval $inlibc
+
 : see if pipe exists
 set pipe d_pipe
 eval $inlibc
@@ -23901,6 +23912,10 @@ eval $inhdr
 set prot.h i_prot
 eval $inhdr
 
+: see if this is a spawn.h system
+set spawn.h i_spawn
+eval $inhdr
+
 : Preprocessor symbols
 echo " "
 $echo "Guessing which symbols your C compiler and preprocessor define..." >&4
@@ -25299,6 +25314,7 @@ d_pipe2='$d_pipe2'
 d_pipe='$d_pipe'
 d_poll='$d_poll'
 d_portable='$d_portable'
+d_posix_spawn='$d_posix_spawn'
 d_prctl='$d_prctl'
 d_prctl_set_name='$d_prctl_set_name'
 d_printf_format_null='$d_printf_format_null'
@@ -25416,6 +25432,7 @@ d_socklen_t='$d_socklen_t'
 d_sockpair='$d_sockpair'
 d_socks5_init='$d_socks5_init'
 d_sqrtl='$d_sqrtl'
+d_spawn='$d_spawn'
 d_srand48_r='$d_srand48_r'
 d_srandom_r='$d_srandom_r'
 d_sresgproto='$d_sresgproto'
@@ -25654,6 +25671,7 @@ i_rpcsvcdbm='$i_rpcsvcdbm'
 i_sgtty='$i_sgtty'
 i_shadow='$i_shadow'
 i_socks='$i_socks'
+i_spawn='$i_spawn'
 i_stdbool='$i_stdbool'
 i_stdint='$i_stdint'
 i_stdlib='$i_stdlib'

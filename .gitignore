@@ -61,6 +61,7 @@ perldtrace.h
 *.i
 *.old
 *.xsc
+*.dbg
 
 # general build products (darwin)
 *.dylib

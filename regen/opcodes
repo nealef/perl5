@@ -466,6 +466,7 @@ closedir	closedir		ck_fun		is%	DF
 # Process control.
 
 fork		fork			ck_null		ist0	
+spawn		spawn			ck_exec		imsT@	L
 wait		wait			ck_null		isT0	
 waitpid		waitpid			ck_fun		isT@	S S
 system		system			ck_exec		imsT@	S? L

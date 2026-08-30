@@ -119,7 +119,7 @@ copy_env()
  *
  * @param[in] env Array of environment variables
  */
-void
+static void
 free_env(char **env) 
 {
     int iEnv;
@@ -368,25 +368,21 @@ fprintf(stderr, "\n");
 if (debug != NULL)            
 fprintf(stderr, "%s:%d - pid: %d error: %s\n", __func__, __LINE__, pid, (pid < 0 ? strerror(errno) : "no error"));
         } else {
-fprintf(stderr, "%s:%d - ERROR - really: %p tmps: %p argv[0]\n", __func__, __LINE__, really, *tmps, argv[0]);
             SETERRNO(ENOENT, RMS_FNF);
         }
         PERL_FPU_POST_EXEC
 
         if (pid < 0) {
             S_spawn_failed(aTHX_ (really ? tmps : argv[0] ? argv[0] : ""));
-            res = TRUE;
-            STATUS_NATIVE_CHILD_SET(-1);
+            res = -1;
         } else {
             errno = 0;
             do {
                 result = waitpid(pid, &status, 0);
             } while (result == -1 && errno == EINTR);
-            res = WEXITSTATUS(status);
 if (debug != NULL)
 fprintf(stderr, "%s:%d - result: %d status: %x errnno: %d\n", __func__, __LINE__, result, res, errno);
-            STATUS_NATIVE_CHILD_SET(result == -1 ? -1 : res);
-            PL_statusvalue = 0;
+            res = (result == -1 ? -1 : status);
         }
 
         free_env(env);
@@ -405,11 +401,9 @@ Perl_do_spawn(pTHX_ const char *incmd)
     /* Make a copy so we can change it */
     const Size_t cmdlen = strlen(incmd) + 1;
     struct inheritance in;
-    int *fdMap, nFd, result, status, pid;
+    int *fdMap, nFd, result, status, pid, res;
     char *sh;
-    bool res;
 
-fprintf(stderr, "%s:%d - incmd: %s\n", __func__, __LINE__, incmd);
     if (__isVM()) 
         sh = "/bin/sh";
     else
@@ -473,20 +467,16 @@ fprintf(stderr, "%s:%d - incmd: %s\n", __func__, __LINE__, incmd);
             in.pgroup = SPAWN_NEWPGROUP;                
             env = copy_env();
 
-fprintf(stderr, "%s:%d - shcmd: %s %s %s nfd: %d\n", __func__, __LINE__, shcmd[0], shcmd[1], shcmd[2], nFd);
             pid = spawnp(shcmd[0], nFd, fdMap, &in, shcmd, (const char **)env);
             PERL_FPU_POST_EXEC
             if (pid < 0) {
                 S_spawn_failed(aTHX_ PL_sh_path);
-                STATUS_NATIVE_CHILD_SET(-1);
-                res = TRUE;
+                res = -1;
             } else {
                 do {
-                    result = waitpid(pid, &status, 0);
+                    result = wait4pid(pid, &status, 0);
                 } while (result == -1 && errno == EINTR);
-                STATUS_NATIVE_CHILD_SET(result == -1 ? -1 : status);
-                res = WEXITSTATUS(status);
-                PL_statusvalue = 0;
+                res = (result == -1 ? -1 : status);
             }
 
             free_env(env);
@@ -518,25 +508,21 @@ fprintf(stderr, "%s:%d - shcmd: %s %s %s nfd: %d\n", __func__, __LINE__, shcmd[0
         in.pgroup = SPAWN_NEWPGROUP;                
         env = copy_env();
 
-fprintf(stderr, "%s:%d - argv: %s nfd: %d\n", __func__, __LINE__, argv[0], nFd);
         pid = spawnp(argv[0], nFd, fdMap, &in, argv, (const char **)env);
         if ((pid < 0) && (errno == ENOEXEC)) {
             const char *shcmd[4] = { sh, "-c", cmd, NULL };
-fprintf(stderr, "%s:%d - shcmd: %s %s %s nfd: %d\n", __func__, __LINE__, shcmd[0], shcmd[1], shcmd[2], nFd);
             pid = spawnp(shcmd[0], nFd, fdMap, &in, shcmd, (const char **)env);
         }
         PERL_FPU_POST_EXEC
         if (pid < 0) {
             S_spawn_failed(aTHX_ PL_sh_path);
             STATUS_NATIVE_CHILD_SET(-1);
-            res = TRUE;
+            res = -1;
         } else {
             do {
                 result = waitpid(pid, &status, 0);
             } while (result == -1 && errno == EINTR);
-            res = WEXITSTATUS(status);
-            STATUS_NATIVE_CHILD_SET(result == -1 ? -1 : res);
-            PL_statusvalue = 0;
+            res = (result == -1 ? -1 : status);
         }
 
         free_env(env);

@@ -166,6 +166,24 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
  */
 #$d_fork HAS_FORK		/**/
 
+/* HAS_SPAWN:
+ *	This symbol, if defined, indicates that the spawn routine is
+ *	available.
+ */
+#$d_spawn HAS_SPAWN		/**/
+
+/* HAS_POSIX_SPAWN:
+ *	This symbol, if defined, indicates that the poisx_spawn routine is
+ *	available.
+ */
+#$d_posix_spawn HAS_POSIX_SPAWN		/**/
+
+/* I_SPAWN:
+ *  This symbol, if defined, indicaes tho the C program that it should
+ *  include <spawn.h> to get definitions of [posix_]spawn()
+ */
+#$i_spawn I_SPAWN   /**/ 
+
 /* HAS_FSETPOS:
  *	This symbol, if defined, indicates that the fsetpos routine is
  *	available to set the file position indicator, similar to fseek().

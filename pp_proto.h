@@ -276,6 +276,7 @@ PERL_CALLCONV PP(pp_sne) __attribute__visibility__("hidden");
 PERL_CALLCONV PP(pp_socket) __attribute__visibility__("hidden");
 PERL_CALLCONV PP(pp_sockpair) __attribute__visibility__("hidden");
 PERL_CALLCONV PP(pp_sort) __attribute__visibility__("hidden");
+PERL_CALLCONV PP(pp_spawn) __attribute__visibility__("hidden");
 PERL_CALLCONV PP(pp_splice) __attribute__visibility__("hidden");
 PERL_CALLCONV PP(pp_split) __attribute__visibility__("hidden");
 PERL_CALLCONV PP(pp_sprintf) __attribute__visibility__("hidden");

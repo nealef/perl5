@@ -9,7 +9,7 @@ BEGIN {
     @INC = '../lib';
     require Config; Config->import;
     require './test.pl';
-    skip_all_without_config('d_fork');
+    do_not_skip_all_with_config(['d_fork','d_spawn','d_posix_spawn']);
 }
 
 plan tests => 106;

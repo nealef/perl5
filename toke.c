@@ -8673,6 +8673,9 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         s = force_word(s,BAREWORD,TRUE,TRUE);
         LOP(OP_SORT,XREF);
 
+    case KEY_spawn:
+        LOP(OP_SPAWN,XREF);
+
     case KEY_split:
         LOP(OP_SPLIT,XTERM);
 

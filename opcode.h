@@ -470,6 +470,7 @@ EXTCONST char* const PL_op_name[] INIT({
 	"rewinddir",
 	"closedir",
 	"fork",
+	"spawn",
 	"wait",
 	"waitpid",
 	"system",
@@ -900,6 +901,7 @@ EXTCONST char* const PL_op_desc[] INIT({
 	"rewinddir",
 	"closedir",
 	"fork",
+	"spawn",
 	"wait",
 	"waitpid",
 	"system",
@@ -1335,6 +1337,7 @@ INIT({
 	Perl_pp_rewinddir,
 	Perl_pp_closedir,
 	Perl_pp_fork,
+	Perl_pp_spawn,
 	Perl_pp_wait,
 	Perl_pp_waitpid,
 	Perl_pp_system,
@@ -1765,6 +1768,7 @@ INIT({
 	Perl_ck_fun,		/* rewinddir */
 	Perl_ck_fun,		/* closedir */
 	Perl_ck_null,		/* fork */
+	Perl_ck_exec,		/* spawn */
 	Perl_ck_null,		/* wait */
 	Perl_ck_fun,		/* waitpid */
 	Perl_ck_exec,		/* system */
@@ -2194,6 +2198,7 @@ EXTCONST U32 PL_opargs[] INIT({
 	0x00006b04,	/* rewinddir */
 	0x00006b04,	/* closedir */
 	0x0000000c,	/* fork */
+	0x0000241d,	/* spawn */
 	0x0000001c,	/* wait */
 	0x0001141c,	/* waitpid */
 	0x0002941d,	/* system */
@@ -2925,6 +2930,7 @@ EXTCONST I16  PL_op_private_bitdef_ix[] = {
        0, /* rewinddir */
        0, /* closedir */
       -1, /* fork */
+     101, /* spawn */
      231, /* wait */
      101, /* waitpid */
      101, /* system */
@@ -3076,7 +3082,7 @@ EXTCONST U16  PL_op_private_bitdefs[] = {
     0x1658, 0x0067, /* repeat */
     0x3fd8, 0x57d0, 0x0067, /* concat */
     0x3cfc, 0x0338, 0x1e34, 0x57d0, 0x550c, 0x0003, /* multiconcat */
-    0x57d0, 0x02af, /* stringify, atan2, rand, srand, crypt, push, unshift, flock, chown, unlink, chmod, utime, rename, link, symlink, mkdir, waitpid, system, exec, kill, getpgrp, setpgrp, getpriority, setpriority, sleep */
+    0x57d0, 0x02af, /* stringify, atan2, rand, srand, crypt, push, unshift, flock, chown, unlink, chmod, utime, rename, link, symlink, mkdir, spawn, waitpid, system, exec, kill, getpgrp, setpgrp, getpriority, setpriority, sleep */
     0x57d0, 0x5aa9, /* left_shift, right_shift, nbit_and, nbit_xor, nbit_or, ncomplement */
     0x5aa9, /* bit_and, bit_xor, bit_or, sbit_and, sbit_xor, sbit_or, complement */
     0x06d4, 0x57d0, 0x0003, /* length */
@@ -3460,6 +3466,7 @@ EXTCONST U8 PL_op_private_valid[] = {
     /* REWINDDIR  */ (OPpARG1_MASK),
     /* CLOSEDIR   */ (OPpARG1_MASK),
     /* FORK       */ (0),
+    /* SPAWN      */ (OPpARG4_MASK|OPpTARGET_MY),
     /* WAIT       */ (OPpTARGET_MY),
     /* WAITPID    */ (OPpARG4_MASK|OPpTARGET_MY),
     /* SYSTEM     */ (OPpARG4_MASK|OPpTARGET_MY),

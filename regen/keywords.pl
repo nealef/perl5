@@ -337,6 +337,7 @@ __END__
 -socket
 -socketpair
 +sort
+-spawn
 -splice
 +split
 -sprintf

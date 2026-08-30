@@ -7,7 +7,7 @@ BEGIN {
 }
 use Config;
 
-skip_all_without_config('d_fork');
+do_not_skip_all_with_config(['d_fork','d_spawn','d_posix_spawn']);
 skip_all("This perl is built with NO_PERL_RAND_SEED")
     if $Config{ccflags} =~ /-DNO_PERL_RAND_SEED\b/;
 use strict;

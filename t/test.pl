@@ -168,6 +168,20 @@ sub skip_all_without_config {
     }
 }
 
+sub do_not_skip_all_with_config {
+    unless (eval {require Config; 1}) {
+	warn "test.pl had problems loading Config: $@";
+	return;
+    }
+    my ($array) = @_;
+    foreach my $kw (@$array) {
+       if ($Config::Config{$kw}) {
+           return;
+       }
+    }
+    skip_all("Not configured for @$array");
+}
+
 sub skip_all_without_unicode_tables { # (but only under miniperl)
     if (is_miniperl()) {
         skip_all_if_miniperl("Unicode tables not built yet")
@@ -902,55 +916,85 @@ sub runperl_and_capture {
   delete $ENV{PERL5LIB};
   delete $ENV{PERL5OPT};
   delete $ENV{PERL_USE_UNSAFE_INC};
-  my $pid = fork;
-  return (0, "Couldn't fork: $!") unless defined $pid;   # failure
-  if ($pid) {                   # parent
-    waitpid $pid,0;
-    my $exit_code = $? ? $? >> 8 : 0;
-    my ($out, $err)= ("", "");
-    local $/;
-    if (open my $stdout, '<', $STDOUT) {
-        $out .= <$stdout>;
-    } else {
-        $err .= "Could not read STDOUT '$STDOUT' file: $!\n";
-    }
-    if (open my $stderr, '<', $STDERR) {
-        $err .= <$stderr>;
-    } else {
-        $err .= "Could not read STDERR '$STDERR' file: $!\n";
-    }
-    if ($exit_code == $FAILURE_CODE) {
-        $err .= "Something went wrong. Received FAILURE_CODE as exit code.\n";
-    }
-    if ($ENV{DEBUG_RUNENV}) {
-        print "OUT: $out\n";
-        print "ERR: $err\n";
-    }
-    return ($out, $err);
-  } elsif (defined $pid) {                      # child
-    # Just in case the order we update the environment changes how
-    # the environment is set up we sort the keys here for consistency.
-    for my $k (sort keys %$env) {
-      $ENV{$k} = $env->{$k};
-    }
-    if ($ENV{DEBUG_RUNENV}) {
-        print "Child Process $$ Executing:\n$PERL @$args\n";
-    }
-    open STDOUT, '>', $STDOUT
-        or do {
-            print "Failed to dup STDOUT to '$STDOUT': $!";
-            exit $FAILURE_CODE;
-        };
-    open STDERR, '>', $STDERR
-        or do {
-            print "Failed to dup STDERR to '$STDERR': $!";
-            exit $FAILURE_CODE;
-        };
-    exec $PERL, @$args
-        or print STDERR "Failed to exec: ",
-                  join(" ",map { "'$_'" } $^X, @$args),
-                  ": $!\n";
-    exit $FAILURE_CODE;
+  if ($Config{d_fork}) {
+      my $pid = fork;
+      return (0, "Couldn't fork: $!") unless defined $pid;   # failure
+      if ($pid) {                   # parent
+        waitpid $pid,0;
+        my $exit_code = $? ? $? >> 8 : 0;
+        my ($out, $err)= ("", "");
+        local $/;
+        if (open my $stdout, '<', $STDOUT) {
+            $out .= <$stdout>;
+        } else {
+            $err .= "Could not read STDOUT '$STDOUT' file: $!\n";
+        }
+        if (open my $stderr, '<', $STDERR) {
+            $err .= <$stderr>;
+        } else {
+            $err .= "Could not read STDERR '$STDERR' file: $!\n";
+        }
+        if ($exit_code == $FAILURE_CODE) {
+            $err .= "Something went wrong. Received FAILURE_CODE as exit code.\n";
+        }
+        if ($ENV{DEBUG_RUNENV}) {
+            print "OUT: $out\n";
+            print "ERR: $err\n";
+        }
+        return ($out, $err);
+      } elsif (defined $pid) {                      # child
+        # Just in case the order we update the environment changes how
+        # the environment is set up we sort the keys here for consistency.
+        for my $k (sort keys %$env) {
+          $ENV{$k} = $env->{$k};
+        }
+        if ($ENV{DEBUG_RUNENV}) {
+            print "Child Process $$ Executing:\n$PERL @$args\n";
+        }
+        open STDOUT, '>', $STDOUT
+            or do {
+                print "Failed to dup STDOUT to '$STDOUT': $!";
+                exit $FAILURE_CODE;
+            };
+        open STDERR, '>', $STDERR
+            or do {
+                print "Failed to dup STDERR to '$STDERR': $!";
+                exit $FAILURE_CODE;
+            };
+        exec $PERL, @$args
+            or print STDERR "Failed to exec: ",
+                      join(" ",map { "'$_'" } $^X, @$args),
+                      ": $!\n";
+        exit $FAILURE_CODE;
+      }
+  } else {
+      for my $k (sort keys %$env) {
+        $ENV{$k} = $env->{$k};
+      }
+      my ($out, $err)= ("", "");
+      my ($pid, $stdin, $stdout, $stderr) = spawn($PERL, @$args);
+      return (0, "Couldn't spawn $!") unless $pid > -1;   # failure
+      if ($ENV{DEBUG_RUNENV}) {
+          print "Child Process $$ Executing:\n$PERL @$args\n";
+      }
+      waitpid $pid,0;
+      my $exit_code = $? ? $? >> 8 : 0;
+      local $/;
+      while (my $line = <$stdout>) {
+          $out .= $line;
+      }
+      while (my $line = <$stderr>) {
+          $err .= $line;
+      }
+      if ($exit_code == $FAILURE_CODE) {
+          $err .= "Something went wrong. Received FAILURE_CODE as exit code.\n";
+      }
+      if ($ENV{DEBUG_RUNENV}) {
+          print "OUT: $out\n";
+          print "ERR: $err\n";
+      }
+      close $stdin; close $stdout; close $stderr;
+      return ($out, $err);
   }
 }
 
@@ -1736,7 +1780,7 @@ sub object_ok {
 sub __capture {
     push @::__capture, join "", @_;
 }
-    
+
 sub capture_warnings {
     my $code = shift;
 

@@ -2977,7 +2977,7 @@ Perl_rsignal(pTHX_ int signo, Sighandler_t handler)
     act.sa_handler = handler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-#ifdef SA_RESTART
+#if defined(SA_RESTART) && !defined(OEZVM)
     if (PL_signals & PERL_SIGNALS_UNSAFE_FLAG)
         act.sa_flags |= SA_RESTART;	/* SVR4, 4.3+BSD */
 #endif
@@ -3029,7 +3029,7 @@ Perl_rsignal_save(pTHX_ int signo, Sighandler_t handler, Sigsave_t *save)
     act.sa_handler = handler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-#ifdef SA_RESTART
+#if defined(SA_RESTART) && !defined(OEZVM)
     if (PL_signals & PERL_SIGNALS_UNSAFE_FLAG)
         act.sa_flags |= SA_RESTART;	/* SVR4, 4.3+BSD */
 #endif

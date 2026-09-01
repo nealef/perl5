@@ -215,31 +215,20 @@ zvm_popenlist(pTHX_ const char *mode, int n, SV **args)
     SV *sv;
     int p[2], *fdMap, nFd;
     const char **argv;
-    const char *cmd[2] = { NULL, "-c" };
     char **env;
     I32 pid, newfd;
     struct inheritance in;
 char *debug = getenv("PERL_DEBUG");
 
-    if (__isVM()) 
-        cmd[0] = "/bin/sh";
-    else
-        cmd[0] = "bash";
+    Newx(argv, n, const char *);
+    SAVEFREEPV(argv);
 
-if (debug != NULL) fprintf(stderr,"%s:%d\n", __func__, __LINE__);
-    argv = __alloca(sizeof(uintptr_t) * (n + 3));
-    argv[0] = cmd[0];
-    argv[1] = cmd[1];
-    for (int i = 0; i < n; i++)
-        argv[i+2] = SvPV_nolen(args[i]);
-    argv[n + 2] = NULL;
-
-    PERL_SET_THX(aTHX);
-
-    if (TAINTING_get) {
-        taint_env();
-        taint_proper("Insecure %s%s", "EXEC");
+    for (int i = 0; i < n; i++) {
+        char *arg = savepv(SvPV_nolen_const(args[i]));
+        SAVEFREEPV(arg);
+        argv[i] = arg;
     }
+    argv[n] = NULL;
 
     if (pipe(p) < 0)
         return NULL;
@@ -267,8 +256,12 @@ if (debug != NULL) fprintf(stderr,"%s:%d\n", __func__, __LINE__);
     in.flags = SPAWN_SETGROUP | SPAWN_SETSIGDEF;
     in.pgroup = SPAWN_NEWPGROUP;                
 
-if (debug != NULL)
-fprintf(stderr, "%s:%d - cmd: %s - p[0]: %d p[1]: %d argv[0]: %s argv[1]: %s argv[2]: %s\n",__func__,__LINE__,cmd[0],fdMap[0],fdMap[1],argv[0],argv[1],argv[2]);
+if (debug != NULL) {
+DEBUG_PRINT("nargs: %d cmd: %s", n, argv[0]);
+for (int i = 1; argv[i] != NULL; i++)
+ fprintf(stderr, "[%s] ", argv[i]);
+fprintf(stderr, "\n");
+}
     pid = spawnp(argv[0], nFd, fdMap, &in, argv, (const char **)env);
 
     free_env(env);

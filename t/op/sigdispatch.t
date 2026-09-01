@@ -24,7 +24,9 @@ pass('before the first loop');
 alarm 2;
 
 eval {
-    1 while 1;
+    while (1) {
+        sleep;
+    }
 };
 
 is($@, "Alarm!\n", 'after the first loop');
@@ -35,6 +37,7 @@ alarm 2;
 
 eval {
     while (1) {
+        sleep;
     }
 };
 

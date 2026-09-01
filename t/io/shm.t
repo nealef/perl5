@@ -40,7 +40,7 @@ END { shmctl $key, IPC_RMID, 0 if defined $key }
 
 {
 	local $SIG{SYS} = sub { skip_all("SIGSYS caught") } if exists $SIG{SYS};
-	$key = shmget IPC_PRIVATE, 8, S_IRWXU;
+	$key = shmget IPC_PRIVATE, 8, S_IRUSR | S_IWUSR;
 }
 
 if (not defined $key) {

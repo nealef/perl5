@@ -180,8 +180,15 @@ char *debug = getenv("PERL_DEBUG");
     in.flags = SPAWN_SETGROUP | SPAWN_SETSIGDEF;
     in.pgroup = SPAWN_NEWPGROUP;                
 
-if (debug != NULL)
-fprintf(stderr, "%s:%d - cmd: %s - p[0]: %d p[1]: %d argv[0]: %s argv[1]: %s argv[2]: %s\n",__func__,__LINE__,cmd,fdMap[0],fdMap[1],argv[0],argv[1],argv[2]);
+if (debug != NULL) {
+fprintf(stderr, "%s:%d - mode: %c p[0]: %d p[1]: %d\nargv: ",__func__,__LINE__,*mode,fdMap[0],fdMap[1]);
+for (int i = 0; argv[i] != NULL; i++) 
+    fprintf(stderr,"[%s] ", argv[i]);
+fprintf(stderr,"\nenv: ");
+for (int i = 0; env[i] != NULL; i++) 
+    fprintf(stderr,"[%s] ", env[i]);
+fprintf(stderr,"\n");
+}
     pid = spawnp(argv[0], nFd, fdMap, &in, argv, (const char **)env);
 
     free_env(env);

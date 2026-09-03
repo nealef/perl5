@@ -6459,7 +6459,7 @@ Tdp	|bool	|quadmath_format_valid					\
 Apx	|void	|thread_locale_init
 Apx	|void	|thread_locale_term
 #endif
-#if defined(VMS) || defined(WIN32)
+#if defined(VMS) || defined(WIN32) || defined(OEZVM)
 Cp	|int	|do_aspawn	|NULLOK SV *really			\
 				|NN SV **mark				\
 				|NN SV **sp

@@ -50,6 +50,10 @@ letter.
 keyword of C<use feature 'class'>.  This keyword is currently
 experimental and its behaviour may change in future releases of Perl.
 
+=item [posix_]spawn() is not supported on this architecture
+
+(F) The platform does not have the posix_spawn() or spawn() APIs.
+
 =item accept() on closed socket %s
 
 (W closed) You tried to do an accept on a closed socket.  Did you forget
@@ -4459,6 +4463,11 @@ constant name at the line where this error was triggered?
 (F) An error peculiar to VMS.  Perl handles its own command line
 redirection, and found a '|' at the end of the command line, so it
 doesn't know where you want to pipe the output from this command.
+
+=item No command provided to spawn
+
+(F) spawn requires an array of strings that are used to spawn a new process to
+execute the command represented by that array.
 
 =item No DB::DB routine defined
 

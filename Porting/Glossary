@@ -2005,6 +2005,10 @@ d_portable (d_portable.U):
 	indicates to the C program that it should not assume that it is
 	running on the machine it was compiled on.
 
+d_posix_spawn (d_posix_spawn.U):
+	This variable conditionally defines the HAS_POSIX_SPAWN symbol, which
+	indicates to the C program that the posix_spawn() routine is available.
+
 d_prctl (d_prctl.U):
 	This variable conditionally defines the HAS_PRCTL symbol, which
 	indicates to the C program that the prctl() routine is available.
@@ -2582,6 +2586,10 @@ d_sockpair (d_socket.U):
 d_socks5_init (d_socks5_init.U):
 	This variable conditionally defines the HAS_SOCKS5_INIT symbol, which
 	indicates to the C program that the socks5_init() routine is available.
+
+d_spawn (d_spawn.U):
+	This variable conditionally defines the HAS_SPAWN symbol, which
+	indicates to the C program that the spawn() routine is available.
 
 d_sqrtl (d_sqrtl.U):
 	This variable conditionally defines the HAS_SQRTL symbol, which
@@ -3716,6 +3724,10 @@ i_shadow (i_shadow.U):
 i_socks (i_socks.U):
 	This variable conditionally defines the I_SOCKS symbol, and indicates
 	whether a C program should include <socks.h>.
+
+i_spawn (i_spawn.U):
+	This variable conditionally defines the I_SPAWN symbol, and indicates
+	whether a C program should include <spawn.h>.
 
 i_stdbool (i_stdbool.U):
 	This variable conditionally defines the I_STDBOOL symbol, which

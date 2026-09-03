@@ -300,6 +300,8 @@ testit reverse  => 'CORE::reverse sort(@foo);';
 
 testit shift    => 'CORE::shift @foo;';
 
+testit spawn    => 'CORE::spawn($foo);';
+
 testit splice   => q{CORE::splice @foo;},                 q{CORE::splice(@foo);};
 testit splice   => q{CORE::splice @foo, 0;},              q{CORE::splice(@foo, 0);};
 testit splice   => q{CORE::splice @foo, 0, 1;},           q{CORE::splice(@foo, 0, 1);};
@@ -649,6 +651,7 @@ sleep            01    -
 socket           4     p
 socketpair       5     p
 sort             12    p+
+spawn            @     p1 # tested specially
 # split handled specially
 # splice handled specially
 sprintf          123   p

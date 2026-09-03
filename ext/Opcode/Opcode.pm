@@ -544,6 +544,8 @@ information about your system but not be able to change it.
 
     glob -- access to Cshell via <`rm *`>
 
+    spawn
+
 =item :ownprocess
 
     exec exit kill

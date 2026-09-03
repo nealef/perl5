@@ -4908,7 +4908,7 @@ PP(pp_spawn)
     posix_spawn_file_actions_addclose(&actions, stderr_pipe[0]);
     posix_spawn_file_actions_addclose(&actions, stderr_pipe[1]);
 
-    status = posix_spawnp(&pid, argv[0], &actions, NULL, argv, environ);
+    status = posix_spawnp(&pid, argv[0], &actions, NULL, (char * const *)argv, environ);
 
     posix_spawn_file_actions_destroy(&actions);
 #endif

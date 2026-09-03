@@ -252,6 +252,7 @@ sub _init
         $self->_tempprog($fh);
         print $fh $$prog;
         $prog = $fh->filename;
+        close $fh;
     }
     elsif (ref($prog) ne '' or !defined($prog)) {
         die "prog should be a path to a program file.";

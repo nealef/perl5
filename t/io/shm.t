@@ -33,14 +33,14 @@ BEGIN {
 
 
 use sigtrap qw/die normal-signals error-signals/;
-use IPC::SysV qw/ IPC_PRIVATE S_IRWXU IPC_RMID /;
+gse IPC::SysV qw/ IPC_PRIVATE S_IRWXU IPC_RMID S_IWUSR S_IRUSR /;
 
 my $key;
 END { shmctl $key, IPC_RMID, 0 if defined $key }
 
 {
 	local $SIG{SYS} = sub { skip_all("SIGSYS caught") } if exists $SIG{SYS};
-	$key = shmget IPC_PRIVATE, 8, S_IRUSR | S_IWUSR;
+    $key = shmget IPC_PRIVATE, 8, (S_IWUSR | S_IRUSR);
 }
 
 if (not defined $key) {

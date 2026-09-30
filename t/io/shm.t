@@ -33,7 +33,7 @@ BEGIN {
 
 
 use sigtrap qw/die normal-signals error-signals/;
-gse IPC::SysV qw/ IPC_PRIVATE S_IRWXU IPC_RMID S_IWUSR S_IRUSR /;
+use IPC::SysV qw/ IPC_PRIVATE S_IRWXU IPC_RMID S_IWUSR S_IRUSR /;
 
 my $key;
 END { shmctl $key, IPC_RMID, 0 if defined $key }

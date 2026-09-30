@@ -28,6 +28,7 @@ $Is_W32     = $^O eq 'MSWin32';
 $Is_VMS     = $^O eq 'VMS';
 $Is_OS2     = $^O eq 'os2';
 $Is_OS390   = $^O eq 'os390';
+$Is_ZVM     = $^O eq 'zvm';
 
 my $vms_unix_rpt = 0;
 my $vms_efs = 0;
@@ -121,6 +122,7 @@ SKIP: {
 
     sub SigHUP {
         print "ok 9 - sigaction SIGHUP\n";
+        # sleep 0;    # For those operating systems using co-operative multitasking
         kill 'INT', $$;
         sleep 2;
         print "ok 10 - sig mask delayed SIGINT\n";
@@ -469,7 +471,7 @@ if ($^O eq 'vos') {
  $| = 0;
  # The following line assumes buffered output, which may be not true:
  print '@#!*$@(!@#$' unless ($Is_OS2 || $Is_OS390 ||
-                            $Is_VMS ||
+                            $Is_VMS || $Is_ZVM ||
 			    (defined $ENV{PERLIO} &&
 			     $ENV{PERLIO} eq 'unix' &&
 			     $Config::Config{useperlio}));

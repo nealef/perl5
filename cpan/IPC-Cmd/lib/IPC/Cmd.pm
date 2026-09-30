@@ -7,6 +7,7 @@ BEGIN {
     use constant IS_VMS         => $^O eq 'VMS'                       ? 1 : 0;
     use constant IS_WIN32       => $^O eq 'MSWin32'                   ? 1 : 0;
     use constant IS_HPUX        => $^O eq 'hpux'                      ? 1 : 0;
+    use constant IS_ZVM         => $^O eq 'zvm'                       ? 1 : 0;
     use constant IS_WIN98       => (IS_WIN32 and !Win32::IsWinNT())   ? 1 : 0;
     use constant ALARM_CLASS    => __PACKAGE__ . '::TimeOut';
     use constant SPECIAL_CHARS  => qw[< > | &];
@@ -16,7 +17,7 @@ BEGIN {
     use vars        qw[ @ISA $VERSION @EXPORT_OK $VERBOSE $DEBUG
                         $USE_IPC_RUN $USE_IPC_OPEN3 $CAN_USE_RUN_FORKED $WARN
                         $INSTANCES $ALLOW_NULL_ARGS
-                        $HAVE_MONOTONIC
+                        $HAVE_MONOTONIC $USE_SPAWN
                     ];
 
     $VERSION        = '1.04';
@@ -24,7 +25,8 @@ BEGIN {
     $DEBUG          = 0;
     $WARN           = 1;
     $USE_IPC_RUN    = IS_WIN32 && !IS_WIN98;
-    $USE_IPC_OPEN3  = not IS_VMS;
+    $USE_IPC_OPEN3  = IS_VMS ? 0 : (IS_ZVM ? 0 : 1);
+    $USE_SPAWN      = IS_ZVM;
     $ALLOW_NULL_ARGS = 0;
 
     $CAN_USE_RUN_FORKED = 0;
@@ -38,7 +40,7 @@ BEGIN {
         require Time::HiRes; Time::HiRes->import();
         require Win32 if IS_WIN32;
     };
-    $CAN_USE_RUN_FORKED = $@ || !IS_VMS && !IS_WIN32;
+    $CAN_USE_RUN_FORKED = $@ || !IS_VMS && !IS_WIN32 && !IS_ZVM;
 
     eval {
         my $wait_start_time = Time::HiRes::clock_gettime(&Time::HiRes::CLOCK_MONOTONIC);
@@ -192,6 +194,7 @@ sub can_capture_buffer {
 
     return 1 if $USE_IPC_RUN    && $self->can_use_ipc_run;
     return 1 if $USE_IPC_OPEN3  && $self->can_use_ipc_open3;
+    return 1 if $USE_SPAWN;
     return;
 }
 
@@ -1355,6 +1358,23 @@ sub run {
 
             $ok = $self->_ipc_run( $cmd, $_out_handler, $_err_handler );
 
+        ### If we don't have fork() then check if we can use spawn()
+        } elsif ( $USE_SPAWN ) {
+            $self->_debug( "# Using spawn(). Have buffer: $have_buffer" )
+                if $DEBUG;
+            my ($out, $err);
+            ($ok, $out, $err) = $self->_spawn_run( $cmd, $verbose );
+            my $outref = ref $out;
+            my $errref = ref $err;
+            if (@$out) {
+                @buffer = @$out;
+                @buff_out = @$out;
+            } 
+            if (@$err) {
+                @buffer = @$err;
+                @buff_err = @$err;
+            }
+
         ### since IPC::Open3 works on all platforms, and just fails on
         ### win32 for capturing buffers, do that ideally
         } elsif ( $USE_IPC_OPEN3 and $self->can_use_ipc_open3( 1 ) ) {
@@ -1744,6 +1764,40 @@ sub _system_run {
 
     return unless $self->ok;
     return $self->ok;
+}
+
+sub _spawn_run {
+    my $self    = shift;
+    my $cmd     = shift;
+    my $verbose = shift || 0;
+
+    my (@cmdline, $ok, @spawn_out, @spawn_err);
+
+    ### pipes have to come in a quoted string, and that clashes with
+    ### whitespace. This sub fixes up such commands so they run properly
+    $cmd = $self->__fix_cmd_whitespace_and_special_chars( $cmd );
+
+    ### system returns 'true' on failure -- the exit code of the cmd
+    if (ref $cmd) {
+        @cmdline = @$cmd;
+    } else {
+        @cmdline = ("sh", "-c", $cmd);
+    }
+    my ($pid, $stdin, $stdout, $stderr) = spawn(@cmdline);
+    if ($pid > 0) {
+        close($stdin);
+        @spawn_out = <$stdout>;
+        @spawn_err = <$stderr>;
+        waitpid($pid, 0);
+        my $rc = ($? >> 8);
+        $ok = ( $rc == 0 );
+    } else { 
+        $ok = 0;
+        $self->error = $?;
+    }
+    $self->ok( $ok );
+
+    return ($ok, \@spawn_out, \@spawn_err);
 }
 
 {   my %sc_lookup = map { $_ => $_ } SPECIAL_CHARS;

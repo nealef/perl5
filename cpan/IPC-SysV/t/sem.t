@@ -40,14 +40,18 @@ use IPC::SysV qw(
 	IPC_RMID
 	IPC_NOWAIT
 	IPC_STAT
-	S_IRWXU
-	S_IRWXG
-	S_IRWXO
+	S_IWUSR
+	S_IRUSR
+	S_IWGRP
+	S_IRGRP
+    S_IWOTH
+    S_IROTH
 );
 use IPC::Semaphore;
 
 # FreeBSD's default limit seems to be 9
 my $nsem = 5;
+my $perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH; 
 my $sem = sub {
   my $code = shift;
   if (exists $SIG{SYS}) {
@@ -55,7 +59,7 @@ my $sem = sub {
     return $code->();
   }
   return $code->();
-}->(sub { IPC::Semaphore->new(IPC_PRIVATE, $nsem, S_IRWXU | S_IRWXG | S_IRWXO | IPC_CREAT) });
+}->(sub { IPC::Semaphore->new(IPC_PRIVATE, $nsem, $perms | IPC_CREAT) });
 
 unless (defined $sem) {
   my $info = "IPC::Semaphore->new failed: $!";

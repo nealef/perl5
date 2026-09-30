@@ -33,7 +33,7 @@ plan(tests => 39);
 # These constants are common to all tests.
 # Later the sem* tests will import more for themselves.
 
-use IPC::SysV qw(IPC_PRIVATE IPC_NOWAIT IPC_STAT IPC_RMID S_IRWXU);
+use IPC::SysV qw(IPC_PRIVATE IPC_NOWAIT IPC_STAT IPC_RMID S_IRUSR S_IWUSR );
 
 {
   my $did_diag = 0;
@@ -120,7 +120,7 @@ if (exists $SIG{SYS}) {  # No SIGSYS with older perls...
 
 my $msg;
 
-my $perm = S_IRWXU;
+my $perm = S_IRUSR | S_IWUSR;
 my $test_name;
 my $N = do { my $foo = eval { pack "L!", 0 }; $@ ? '' : '!' };
 
@@ -138,7 +138,7 @@ SKIP: {
     skip(skip_or_die('msgget', $!), 6);
   }
 
-  pass('msgget IPC_PRIVATE S_IRWXU');
+  pass('msgget IPC_PRIVATE S_IRUSR | S_IWUSR');
 
   #Putting a message on the queue
   my $msgtype = 1;
@@ -274,7 +274,7 @@ SKIP: {
 
   use IPC::SysV qw(shmat shmdt memread memwrite ftok);
 
-  my $shm = catchsig(sub { shmget(IPC_PRIVATE, 4, S_IRWXU) });
+  my $shm = catchsig(sub { shmget(IPC_PRIVATE, 4, S_IRUSR | S_IWUSR) });
 
   # Very first time called after machine is booted value may be 0 
   unless (defined $shm && $shm >= 0) {

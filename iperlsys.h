@@ -753,8 +753,13 @@ struct IPerlLIOInfo
 #    define PerlLIO_chsize(fd, size)    my_chsize((fd), (size))
 #  endif
 #  define PerlLIO_close(fd)             close((fd))
-#  define PerlLIO_dup(fd)                       dup((fd))
-#  define PerlLIO_dup2(fd1, fd2)                dup2((fd1), (fd2))
+#  ifdef OEZVM
+#    define PerlLIO_dup(fd)                 __dup_a((fd))
+#    define PerlLIO_dup2(fd1, fd2)          __dup2_a((fd1), (fd2))
+#  else
+#    define PerlLIO_dup(fd)                 dup((fd))
+#    define PerlLIO_dup2(fd1, fd2)          dup2((fd1), (fd2))
+#  endif
 #  define PerlLIO_flock(fd, op)         FLOCK((fd), (op))
 #  define PerlLIO_fstat(fd, buf)                Fstat((fd), (buf))
 #  define PerlLIO_ioctl(fd, u, buf)     ioctl((fd), (u), (buf))

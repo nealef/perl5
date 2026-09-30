@@ -32,11 +32,23 @@ if ($Config{'d_sem'} ne 'define') {
   plan(skip_all => '$Config{d_msg} undefined');
 }
 
-use IPC::SysV qw(IPC_PRIVATE IPC_RMID IPC_NOWAIT IPC_STAT S_IRWXU S_IRWXG S_IRWXO);
+use IPC::SysV qw(
+    IPC_PRIVATE 
+    IPC_RMID 
+    IPC_NOWAIT 
+    IPC_STAT 
+	S_IWUSR
+	S_IRUSR
+	S_IWGRP
+	S_IRGRP
+    S_IWOTH
+    S_IROTH
+);
 
 use IPC::Msg;
 #Creating a message queue
 
+my $perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 my $msq = sub {
   my $code = shift;
   if (exists $SIG{SYS}) {
@@ -44,7 +56,7 @@ my $msq = sub {
     return $code->();
   }
   return $code->();
-}->(sub { IPC::Msg->new(IPC_PRIVATE, S_IRWXU | S_IRWXG | S_IRWXO) });
+}->(sub { IPC::Msg->new(IPC_PRIVATE, $perms) });
 
 unless (defined $msq) {
   my $info = "IPC::Msg->new failed: $!";

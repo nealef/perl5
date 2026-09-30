@@ -4844,6 +4844,7 @@ PP(pp_spawn)
     dTARGET; dSP; dMARK; dORIGMARK;
     pid_t pid;
     int status;
+char *debug = getenv("PERL_DEBUG");
     
     /*
      * 1. Calculate number of items on the stack
@@ -4852,6 +4853,8 @@ PP(pp_spawn)
     if (items < 1) {
         DIE(aTHX_ "No command provided to spawn");
     }
+if (debug)
+DEBUG_PRINT("# items: %d", items);
 
     /*
      * 2. Build argv array for [posix_]spawn from remaining stack elements
@@ -4862,6 +4865,8 @@ PP(pp_spawn)
     Newxz(argv, items + 1, const char*);
     for (int i = 0; i < items; i++) {
         argv[i] = (char *)SvPV_nolen(MARK[i + 1]);
+if (debug)
+DEBUG_PRINT("# argv[%d]: %s", i, argv[i]);
     }
     argv[items] = NULL;
 

@@ -17,7 +17,13 @@
 // #pragma map(getwd, "GETWDOVRA")
 // #pragma map(truncate, "TRUNCOVRA")
 #pragma map(select_ovr, "SLCTOVRA")
+#pragma map(__clock_ovr, "CLCKOVRA")
+#pragma map(__uname_ovr, "UNAMEOVR")
+#pragma map(__wcsstr_ovr, "WCCSTROV")
 #define select(n, r, w, x, t) select_ovr(n, r, w, x, t)
+#define clock() __clock_ovr()
+#define uname(a) __uname_ovr(a)
+#define wcsstr(a, b) __wcsstr_ovr(a, b)
 
 void __initASCIIlib_a(void);
 int __isVM(void);
@@ -38,6 +44,10 @@ int __isVM(void);
 #undef isspace
 #undef isupper
 #undef isxdigit
+#undef tolower
+#undef toupper
+#undef towlower
+#undef towupper
 
 #define isalnum(c)  (__isalnum_a)(c)
 #define isalpha(c)  (__isalpha_a)(c)
@@ -63,6 +73,11 @@ int __isVM(void);
 #pragma map (__isspace_a, "\174\174A00219")
 #pragma map (__isupper_a, "\174\174A00220")
 #pragma map (__isxdigit_a,"\174\174A00221")
+
+#undef MB_CUR_MAX
+#define MB_CUR_MAX __mb_cur_max_a()
+int __mb_cur_max_a(void);
+#pragma map(__mb_cur_max_a, "MBCURMXA")
 
 #define DUMP_DATA(t, d, l) do {                         \
        int x,y;		                                    \

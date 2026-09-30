@@ -30,7 +30,7 @@ if ($Config{'d_shm'} ne 'define') {
   plan(skip_all => '$Config{d_shm} undefined');
 }
 
-use IPC::SysV qw( IPC_PRIVATE S_IRWXU );
+use IPC::SysV qw( IPC_PRIVATE S_IRWXU S_IWUSR S_IRUSR );
 use IPC::SharedMem;
 
 my $shm = sub {
@@ -40,7 +40,7 @@ my $shm = sub {
     return $code->();
   }
   return $code->();
-}->(sub { IPC::SharedMem->new(IPC_PRIVATE, 8, S_IRWXU) });
+}->(sub { IPC::SharedMem->new(IPC_PRIVATE, 8, (S_IWUSR | S_IRUSR)) });
 
 unless (defined $shm) {
   my $info = "IPC::SharedMem->new failed: $!";

@@ -100,6 +100,11 @@ sub _use_open3 {
     return 1;
 }
 
+sub _use_spawn {
+    my $self = shift;
+    return $Config{d_spawn} || $Config{d_posixspawn}
+}
+
 {
     my $got_unicode;
 
@@ -165,6 +170,12 @@ sub _initialize {
             eval { $pid = open3( '<&STDIN', $out, $err, @command ); };
             die "Could not execute (@command): $@" if $@;
             $sel = $merge ? undef : IO::Select->new( $out, $err );
+        }
+    } elsif ( $self->_use_spawn ) {
+        $err = '';
+        my ($pid, $out, $err) = spawn(@command);
+        if ($pid < 0) {
+            die "Could not spawn (@command): $!";
         }
     }
     else {

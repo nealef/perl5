@@ -187,7 +187,7 @@ for (int i = 0; argv[i] != NULL; i++)
 fprintf(stderr,"\nenv: ");
 for (int i = 0; env[i] != NULL; i++) 
     fprintf(stderr,"[%s] ", env[i]);
-fprintf(stderr,"\n");
+fprintf(stderr,"\n"); fflush(stderr);
 }
     pid = spawnp(argv[0], nFd, fdMap, &in, argv, (const char **)env);
 

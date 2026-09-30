@@ -43,9 +43,9 @@ def_zvm_defs="$def_zvm_defs -D_ALL_SOURCE";
 
 def_zvm_cflags="$def_zvm_cflags -q32 -Wc,xplink -qascii"
 def_zvm_cccdlflags="$def_zvm_cflags"
-def_zvm_ldflags="-q32 -Wl,xplink /usr/local/lib/libascii_zos.x -qascii"
-static_ldflags="-q32 -qxplink /usr/local/lib/libascii_zos.x -qascii"
-libs=/usr/local/lib/libascii_zos.x -lm -lc
+def_zvm_ldflags="-q32 -Wl,xplink /usr/local/lib/libascii.x -qascii"
+static_ldflags="-q32 -qxplink /usr/local/lib/libascii.x -qascii"
+libs=/usr/local/lib/libascii.x -lm -lc
 perllibs=$libs
 
 myfirstchar=$(od -A n -N 1 -t x $me | xargs | tr [:lower:] [:upper:] | tr -d 0)
@@ -170,7 +170,7 @@ define)
 	'') ccdlflags="`pwd`/libperl.x" ;;
 	 *) ccdlflags="$ccdlflags `pwd`/libperl.x" ;;
 	esac
-	lddlflags="$lddlflags `pwd`/libperl.x /usr/local/lib/libascii_zos.x"
+	lddlflags="$lddlflags `pwd`/libperl.x /usr/local/lib/libascii.x"
 	EOCBU
    ;;
 esac

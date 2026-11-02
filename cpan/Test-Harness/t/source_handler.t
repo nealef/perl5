@@ -408,10 +408,8 @@ sub test_handler {
 
             isa_ok $iterator, $test->{iclass}, $name;
             if ( $test->{output} ) {
-                print("test->output: @{$test->{output}}\n");
                 my $i = 1;
                 for my $line ( @{ $test->{output} } ) {
-                    print("line: $line\n");
                     is $iterator->next, $line, "... line $i";
                     $i++;
                 }

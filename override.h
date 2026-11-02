@@ -35,6 +35,7 @@ int __isVM(void);
 
 #undef isalnum
 #undef isalpha
+#undef isblank
 #undef iscntrl
 #undef isdigit
 #undef isgraph
@@ -51,6 +52,7 @@ int __isVM(void);
 
 #define isalnum(c)  (__isalnum_a)(c)
 #define isalpha(c)  (__isalpha_a)(c)
+#define isblank(c)  (__isblank_a)(c)
 #define iscntrl(c)  (__iscntrl_a)(c)
 #define isdigit(c)  (__isdigit_a)(c)
 #define isgraph(c)  (__isgraph_a)(c)
